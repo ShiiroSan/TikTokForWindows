@@ -11,7 +11,7 @@ namespace TikTokForWindows
 {
     class GetTikTokShit
     {
-        private static string api_url = "https://api2.musical.ly";
+        private static string api_url = "http://api2.musical.ly";
         private static string api_channel = "googleplay";
         private static string api_device = "ONEPLUS%20A5000";
         private static string api_osversion = "9";
