@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
 
 namespace TikTokForWindows
 {
@@ -20,7 +20,7 @@ namespace TikTokForWindows
         private static string api_plateform = "android";
         private static string api_deviceid = "6696405881771705861";
 
-        StaticRequestParams staticRequestParams = new StaticRequestParams();
+        //StaticRequestParams staticRequestParams = new StaticRequestParams();
         // staticRequestParams.
         public static string GetFeed()
         {

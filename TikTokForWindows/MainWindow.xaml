@@ -1,0 +1,29 @@
+﻿<Window x:Class="TikTokForWindows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TikTokForWindows"
+        xmlns:uc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Image x:Key="PauseBtn" Source="/TikTokForWindows;component/Resources/pause-button.png"/>
+        <Image x:Key="PlayBtn" Source="/TikTokForWindows;component/Resources/play-button.png"/>
+    </Window.Resources>
+    <Grid>
+        <uc:VideoView x:Name="videoView" Margin="186,10,185,10">
+            <Grid>
+                <Button Content="▲" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}"/>
+                <Button x:Name="playPauseBtn" HorizontalAlignment="Left" Margin="0,150,0,0" VerticalAlignment="Top" Width="413" Height="120" Style="{DynamicResource ChangeVidBtn}" Click="Button_Click">
+                    <Image Opacity="0.6">
+                        <Image.Source>
+                            <BitmapImage UriSource="/TikTokForWindows;component/Resources/pause-button.png"/>
+                        </Image.Source>
+                    </Image>
+                </Button>
+                <Button Content="▼" HorizontalAlignment="Left" Margin="0,311,0,0" VerticalAlignment="Top" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}"/>
+            </Grid>
+        </uc:VideoView>
+    </Grid>
+</Window>
