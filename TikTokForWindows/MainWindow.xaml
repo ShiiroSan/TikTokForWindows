@@ -22,7 +22,9 @@
                         </Image.Source>
                     </Image>
                 </Button>
-                <Button Content="▼" HorizontalAlignment="Left" Margin="0,311,0,0" VerticalAlignment="Top" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}"/>
+                <Button x:Name="nextVideo" Content="▼" HorizontalAlignment="Left" Margin="0,311,0,0" VerticalAlignment="Top" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}" Click="nextVideo_Click"/>
+                <ProgressBar x:Name="videoProgress" HorizontalAlignment="Left" Height="5" Margin="0,386,0,0" VerticalAlignment="Top" Width="413" Value="50" Foreground="#FFB00606" />
+
             </Grid>
         </uc:VideoView>
     </Grid>

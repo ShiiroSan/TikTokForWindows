@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -17,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Xamarin.Forms.Xaml;
+using Image = System.Windows.Controls.Image;
 using MediaPlayer = LibVLCSharp.Shared.MediaPlayer;
 
 namespace TikTokForWindows
@@ -39,6 +41,14 @@ namespace TikTokForWindows
             return var1;
         }
 
+        Image PlayImage;
+        Image PauseImage;
+
+        BitmapImage PlayBitmapImage;
+        BitmapImage PauseBitmapImage;
+
+        string videoURL;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -49,14 +59,28 @@ namespace TikTokForWindows
             string VlcLibDirectory = new DirectoryInfo(System.IO.Path.Combine(currentDirectory, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64")).FullName;
             Core.Initialize(VlcLibDirectory);
 
-            var videoURL = getNewUrl();
+            videoURL = getNewUrl();
             Console.WriteLine(videoURL);
 
             _libVLC = new LibVLC();
             _mp = new MediaPlayer(_libVLC);
             videoView.Loaded += (sender, e) => videoView.MediaPlayer = _mp;
             _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
-            _mp.Volume = 20;
+            _mp.Volume = 30;
+            _mp.TimeChanged += TimeChanged;
+            _mp.EndReached += EndReached;
+
+            PlayImage = new Image();
+            var UriStringPlay = @"pack://application:,,,/TikTokForWindows;component/Resources/play-button.png";
+            var UriBitmapImageSourcePlay = new Uri(UriStringPlay, UriKind.Absolute);
+            PlayBitmapImage = new BitmapImage(UriBitmapImageSourcePlay);
+            PlayImage.Source = PlayBitmapImage;
+
+            PauseImage = new Image();
+            var UriStringPause = @"pack://application:,,,/TikTokForWindows;component/Resources/pause-button.png";
+            var UriBitmapImageSourcePause = new Uri(UriStringPause, UriKind.Absolute);
+            PauseBitmapImage = new BitmapImage(UriBitmapImageSourcePause);
+            PauseImage.Source = PauseBitmapImage;
         }
 
         private bool isPlaying = true;
@@ -67,24 +91,44 @@ namespace TikTokForWindows
             {
                 isPlaying = !isPlaying;
                 _mp.Pause();
-                var Image = new Image();
-                var UriString = @"pack://application:,,,/TikTokForWindows;component/Resources/play-button.png";
-                var UriBitmapImageSource = new Uri(UriString, UriKind.Absolute);
-                var BitMapImage = new BitmapImage(UriBitmapImageSource);
-                Image.Source = BitMapImage;
-                playPauseBtn.Content = Image;
+                playPauseBtn.Content = PauseImage;
             }
             else
             {
+
                 isPlaying = !isPlaying;
+
+                if (b_hasEnded)
+                {
+                    b_hasEnded = !b_hasEnded;
+                    _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
+                }
                 _mp.Play();
-                var Image = new Image();
-                var UriString = @"pack://application:,,,/TikTokForWindows;component/Resources/pause-button.png";
-                var UriBitmapImageSource = new Uri(UriString, UriKind.Absolute);
-                var BitMapImage = new BitmapImage(UriBitmapImageSource);
-                Image.Source = BitMapImage;
-                playPauseBtn.Content = Image;
+                playPauseBtn.Content = PlayImage;
             }
+        }
+
+        private void nextVideo_Click(object sender, RoutedEventArgs e)
+        {
+            videoURL = getNewUrl();
+            Console.WriteLine(videoURL);
+            //_mp.Stop();
+            //_mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
+        }
+
+        private void TimeChanged(object sender, System.EventArgs e)
+        {
+            videoProgress.Dispatcher.Invoke(() => videoProgress.Value = _mp.Time * 100 / _mp.Length); //Dispatcher.Invoke is used to modify element form within another thread
+        }
+
+        bool b_hasEnded;
+
+        private void EndReached(object sender, EventArgs e)
+        {
+            isPlaying = !isPlaying;
+            b_hasEnded = true;
+            playPauseBtn.Dispatcher.Invoke(() => playPauseBtn.Content = PlayImage);
+            videoProgress.Dispatcher.Invoke(() => videoProgress.Value = 100);
         }
     }
 }
