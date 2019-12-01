@@ -95,6 +95,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="TikTokArgumentManager.cs" />
     <Compile Include="TikTokLogin.cs" />
     <Page Include="Dictionary1.xaml">
       <SubType>Designer</SubType>

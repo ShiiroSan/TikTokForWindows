@@ -52,7 +52,7 @@ namespace TikTokForWindows
         public MainWindow()
         {
             InitializeComponent();
-            TikTokLogin.XorEncrypt("password");
+            //TikTokLogin.XorEncrypt("password");
 
             /* Following part is made to get libVLC DLLs, as they are not copied in main folder*/
             var currentAssembly = Assembly.GetEntryAssembly();
