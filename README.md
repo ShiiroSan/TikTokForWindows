@@ -1,5 +1,6 @@
 # TikTokForWindows
 This is an attempt to make a desktop software for [TikTok](https://www.tiktok.com/).
+Right now, the main project is in pause. I'll be able to do more as soon as I fully got all parameters, and found a way to get them easily with future TikTok update. 
 
 # Building
 
