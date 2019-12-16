@@ -36,7 +36,7 @@ namespace ParameterLister
                 {
                     Console.WriteLine("Captain! Many parameter there!");
                     var TheCrewOfParam = args;
-                    foreach(var soloParam in TheCrewOfParam)
+                    foreach (var soloParam in TheCrewOfParam)
                     {
                         Console.WriteLine("They even put file on it!");
                         if (IsValidPath(soloParam).IsFile)
@@ -57,22 +57,51 @@ namespace ParameterLister
             }
             else
             {
-                Console.WriteLine("Print argument list here:");
-                BagOfCandies.Add(Console.ReadLine());
-            }
-            string pattern = @"((?:[a-z]+|_|-)*)=((?:[a-zA-Z]+|[0-9]+|_|-|\.|\%|\*)*)";
-            RegexOptions options = RegexOptions.Multiline;
-
-            foreach(string candie in BagOfCandies)
-            {
-                var Lollipops = Regex.Matches(candie, pattern, options);
-                var argList = new List<string>();
-                var valList = new List<string>();
-                foreach (Match lollipop in Lollipops)
+                Console.WriteLine("Print URL list (seperated by space) or file with link you wanna scan here:");
+                string userGivingMeTheInfo = Console.ReadLine();
+                string[] CrewOfUserGaveInfo = userGivingMeTheInfo.Split(" ");
+                foreach (string IAmBoredOfUsingVarName in CrewOfUserGaveInfo)
                 {
-                    argList.Add(lollipop.Groups[1].Value);
+                    if (IsValidPath(IAmBoredOfUsingVarName).IsFile)
+                    {
+                        string[] BagOfBiscuit = File.ReadAllLines(IAmBoredOfUsingVarName);
+                        foreach (var Mars in BagOfBiscuit)
+                        {
+                            BagOfCandies.Add(Mars);
+                        }
+                    }
+                    else
+                        BagOfCandies.Add(IAmBoredOfUsingVarName);
                 }
             }
+            string pattern = @"(?:\&|\?)([^=]*)\=([^&]*)";
+            RegexOptions options = RegexOptions.Multiline;
+
+
+            var argList = new List<string>();
+            var valList = new List<string>();
+            var incValList = new List<int>();
+            foreach (string candie in BagOfCandies)
+            {
+                var Lollipops = Regex.Matches(candie, pattern, options);
+                for (int i = 0; i < Lollipops.Count; i++)
+                {
+                    Match lollipop = Lollipops[i];
+                    if (argList.Contains(lollipop.Groups[1].Value))
+                    {
+
+                        incValList[i] += 1;
+                        valList[i] += ("," + lollipop.Groups[2].Value);
+                    }
+                    else
+                    {
+                        argList.Add(lollipop.Groups[1].Value);
+                        valList.Add(lollipop.Groups[2].Value);
+                        incValList.Add(1);
+                    }
+                }
+            }
+            //Write to file
         }
 
         static (string URI, bool IsAbsoluteUri, bool IsFile) IsValidPath(string path) //based on drzaus on stackoverflow
