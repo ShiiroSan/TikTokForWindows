@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -74,30 +75,49 @@ namespace ParameterLister
                         BagOfCandies.Add(IAmBoredOfUsingVarName);
                 }
             }
-            string pattern = @"(?:\&|\?)([^=]*)\=([^&]*)";
+            string pattern = @"(?:(http(?:s|)\:\/\/(?:[^?]*))|)(?:\&|\?)([^=]*)\=([^&]*)";
+            /*
+             * (?:(http(?:s|)\:\/\/(?:[^?]*))|) --> Capture the url
+             * (?:\&|\?)([^=]*)\= --> Capture the argument
+             * ([^&]*) --> capture the value
+             */
             RegexOptions options = RegexOptions.Multiline;
 
 
             var argList = new List<string>();
             var valList = new List<string>();
-            var incValList = new List<int>();
+            var redudancyList = new List<int>();
+
+            /*TODO:
+             * Rearrange data
+             * So I'll be able to display data correctly. Right now I've no clue on how to 
+             * draw gathered info...
+            */
+
             foreach (string candie in BagOfCandies)
             {
                 var Lollipops = Regex.Matches(candie, pattern, options);
                 for (int i = 0; i < Lollipops.Count; i++)
                 {
                     Match lollipop = Lollipops[i];
-                    if (argList.Contains(lollipop.Groups[1].Value))
+                    if (argList.Contains(lollipop.Groups[2].Value))
                     {
-
-                        incValList[i] += 1;
-                        valList[i] += ("," + lollipop.Groups[2].Value);
+                        int j = 0;
+                        while (argList[j] != lollipop.Groups[2].Value)
+                        {
+                            j++;
+                        }
+                        if (j != 0)
+                        {
+                            valList[j] += "," + lollipop.Groups[3].Value;
+                            redudancyList[j] += 1;
+                        }
                     }
                     else
                     {
-                        argList.Add(lollipop.Groups[1].Value);
-                        valList.Add(lollipop.Groups[2].Value);
-                        incValList.Add(1);
+                        argList.Add(lollipop.Groups[2].Value);
+                        valList.Add(lollipop.Groups[3].Value);
+                        redudancyList.Add(1);
                     }
                 }
             }

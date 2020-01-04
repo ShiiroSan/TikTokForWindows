@@ -32,13 +32,19 @@ namespace TikTokForWindows
         private MediaPlayer _mp;
 
 
-        string getNewUrl()
+        List<string> getNewUrls()
         {
+            List<string> listOfUrl = new List<string>();
             string m_sTiktokfeed = GetTikTokShit.GetFeed();
             JObject m_jsonTikTokFeed = JObject.Parse(m_sTiktokfeed);
-            string var1 = m_jsonTikTokFeed["aweme_list"][0]["video"]["play_addr"]["url_list"][0].ToString();
+            JToken awemeListJSON = m_jsonTikTokFeed["aweme_list"];
+
+            for (int i = 0; i < awemeListJSON.Count(); i++)
+            {
+                listOfUrl.Add(m_jsonTikTokFeed["aweme_list"][i]["video"]["play_addr"]["url_list"][0].ToString());
+            }
             //string url = Regex.Replace(var1[0]["video"]["play_addr"]["url_list"][0].ToString(), @"\""", @"");
-            return var1;
+            return listOfUrl;
         }
 
         Image PlayImage;
@@ -59,8 +65,8 @@ namespace TikTokForWindows
             var currentDirectory = new FileInfo(currentAssembly.Location).DirectoryName;
             string VlcLibDirectory = new DirectoryInfo(System.IO.Path.Combine(currentDirectory, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64")).FullName;
             Core.Initialize(VlcLibDirectory);
-
-            videoURL = getNewUrl();
+            List<string> listOfUrls = getNewUrls();
+            videoURL = listOfUrls[0];
             Console.WriteLine(videoURL);
 
             _libVLC = new LibVLC();
@@ -111,7 +117,7 @@ namespace TikTokForWindows
 
         private void nextVideo_Click(object sender, RoutedEventArgs e)
         {
-            videoURL = getNewUrl();
+            videoURL = getNewUrls()[0];
             Console.WriteLine(videoURL);
             //_mp.Stop();
             //_mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));

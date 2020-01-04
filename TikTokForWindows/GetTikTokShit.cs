@@ -31,7 +31,7 @@ namespace TikTokForWindows
                 // The 3 following line is needed to bypass some check against botting on website (Error 403 if these line don't exist)
                 request.Method = "GET";
                 request.Accept = "text/html";
-                request.UserAgent = "com.zhiliaoapp.musically/2019071548 (Linux: U; Android 10; fr_FR; ONEPLUS A7000; Build/PKQ1.180716.001; Cronet/58.0.2991.0)"; //CHANGE CA SI JAMAIS CA PLANTE SANS RAISON --"
+                request.UserAgent = "okhttp/3.10.0.1"; //okhttp seems to bypass new issues caused by 2k20 :shrug:
                 response = (HttpWebResponse)request.GetResponse();
                 string sourcePage;
 
