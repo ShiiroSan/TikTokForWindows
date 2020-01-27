@@ -14,15 +14,15 @@
     <Grid>
         <uc:VideoView x:Name="videoView" Margin="186,10,185,10">
             <Grid>
-                <Button Content="▲" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}"/>
-                <Button x:Name="playPauseBtn" HorizontalAlignment="Left" Margin="0,150,0,0" VerticalAlignment="Top" Width="413" Height="120" Style="{DynamicResource ChangeVidBtn}" Click="Button_Click">
+                <Button x:Name="prevVid_Button" Content="▲" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}" Click="prevVid_Click"/>
+                <Button x:Name="playPauseBtn" HorizontalAlignment="Left" Margin="0,150,0,0" VerticalAlignment="Top" Width="413" Height="120" Style="{DynamicResource ChangeVidBtn}" Click="playPause_Click">
                     <Image Opacity="0.6">
                         <Image.Source>
                             <BitmapImage UriSource="/TikTokForWindows;component/Resources/pause-button.png"/>
                         </Image.Source>
                     </Image>
                 </Button>
-                <Button x:Name="nextVideo" Content="▼" HorizontalAlignment="Left" Margin="0,311,0,0" VerticalAlignment="Top" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}" Click="nextVideo_Click"/>
+                <Button x:Name="nextVideo_Button" Content="▼" HorizontalAlignment="Left" Margin="0,311,0,0" VerticalAlignment="Top" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}" Click="nextVideo_Click"/>
                 <ProgressBar x:Name="videoProgress" HorizontalAlignment="Left" Height="5" Margin="0,386,0,0" VerticalAlignment="Top" Width="413" Value="50" Foreground="#FFB00606" />
 
             </Grid>

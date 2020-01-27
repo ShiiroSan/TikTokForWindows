@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,14 +24,14 @@ using MediaPlayer = LibVLCSharp.Shared.MediaPlayer;
 
 namespace TikTokForWindows
 {
-    /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private LibVLC _libVLC;
         private MediaPlayer _mp;
 
+
+        List<string> listOfUrls;
+        int positionOfUrlsList = -1;
 
         List<string> getNewUrls()
         {
@@ -47,11 +48,35 @@ namespace TikTokForWindows
             return listOfUrl;
         }
 
+        string getPrevUrl()
+        {
+            positionOfUrlsList--;
+            if (positionOfUrlsList < 0)
+            {
+                listOfUrls.Clear();
+                listOfUrls.AddRange(getNewUrls()); //This is to reproduce when you do random search on foryou page
+                positionOfUrlsList = 0;
+            }
+            return listOfUrls[positionOfUrlsList];
+        }
+
+        string getNewUrl()
+        {
+            positionOfUrlsList++;
+            if (positionOfUrlsList == listOfUrls.Count)
+            {
+                listOfUrls.AddRange(getNewUrls());
+            }
+            return listOfUrls[positionOfUrlsList];
+        }
+
+
         Image PlayImage;
         Image PauseImage;
 
         BitmapImage PlayBitmapImage;
         BitmapImage PauseBitmapImage;
+
 
         string videoURL;
 
@@ -59,21 +84,23 @@ namespace TikTokForWindows
         {
             InitializeComponent();
             //TikTokLogin.XorEncrypt("password");
-
             /* Following part is made to get libVLC DLLs, as they are not copied in main folder*/
             var currentAssembly = Assembly.GetEntryAssembly();
             var currentDirectory = new FileInfo(currentAssembly.Location).DirectoryName;
             string VlcLibDirectory = new DirectoryInfo(System.IO.Path.Combine(currentDirectory, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64")).FullName;
             Core.Initialize(VlcLibDirectory);
-            List<string> listOfUrls = getNewUrls();
-            videoURL = listOfUrls[0];
+
+            listOfUrls = getNewUrls();
+
+            videoURL = getNewUrl();
             Console.WriteLine(videoURL);
 
-            _libVLC = new LibVLC();
+            _libVLC = new LibVLC("--verbose=2");
             _mp = new MediaPlayer(_libVLC);
             videoView.Loaded += (sender, e) => videoView.MediaPlayer = _mp;
             _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
             _mp.Volume = 30;
+
             _mp.TimeChanged += TimeChanged;
             _mp.EndReached += EndReached;
 
@@ -92,50 +119,60 @@ namespace TikTokForWindows
 
         private bool isPlaying = true;
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /*
+         * GUI MANAGEMENT
+         */
+
+        private void playPause_Click(object sender, RoutedEventArgs e)
         {
             if (isPlaying)
             {
                 isPlaying = !isPlaying;
                 _mp.Pause();
-                playPauseBtn.Content = PauseImage;
+                playPauseBtn.Content = PlayImage;
             }
             else
             {
 
                 isPlaying = !isPlaying;
-
-                if (b_hasEnded)
-                {
-                    b_hasEnded = !b_hasEnded;
-                    _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
-                }
                 _mp.Play();
-                playPauseBtn.Content = PlayImage;
+                playPauseBtn.Content = PauseImage;
             }
         }
 
         private void nextVideo_Click(object sender, RoutedEventArgs e)
         {
-            videoURL = getNewUrls()[0];
+            videoURL = getNewUrl();
             Console.WriteLine(videoURL);
-            //_mp.Stop();
-            //_mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
+            _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
         }
+
+        private void prevVid_Click(object sender, RoutedEventArgs e)
+        {
+            videoURL = getPrevUrl();
+            Console.WriteLine(videoURL);
+            _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
+        }
+
+
+        /*
+         * EVENT MANAGEMENT
+         */
 
         private void TimeChanged(object sender, System.EventArgs e)
         {
-            videoProgress.Dispatcher.Invoke(() => videoProgress.Value = _mp.Time * 100 / _mp.Length); //Dispatcher.Invoke is used to modify element form within another thread
+            if (_mp.Length == 0)
+            {
+                Thread.Sleep(100);
+            }
+            double videoProgressValue = _mp.Time * 100 / _mp.Length;
+            ThreadPool.QueueUserWorkItem(_ => videoProgress.Dispatcher.Invoke(() => videoProgress.Value = videoProgressValue)); //Dispatcher.Invoke is used to modify element form within another thread
         }
-
-        bool b_hasEnded;
 
         private void EndReached(object sender, EventArgs e)
         {
-            isPlaying = !isPlaying;
-            b_hasEnded = true;
-            playPauseBtn.Dispatcher.Invoke(() => playPauseBtn.Content = PlayImage);
-            videoProgress.Dispatcher.Invoke(() => videoProgress.Value = 100);
+            ThreadPool.QueueUserWorkItem(_ => _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation)));
+            ThreadPool.QueueUserWorkItem(_ => videoProgress.Dispatcher.Invoke(() => videoProgress.Value = 0));
         }
     }
 }
