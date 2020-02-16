@@ -6,26 +6,29 @@
         xmlns:local="clr-namespace:TikTokForWindows"
         xmlns:uc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" MouseWheel="Window_MouseWheel">
     <Window.Resources>
         <Image x:Key="PauseBtn" Source="/TikTokForWindows;component/Resources/pause-button.png"/>
         <Image x:Key="PlayBtn" Source="/TikTokForWindows;component/Resources/play-button.png"/>
     </Window.Resources>
     <Grid>
-        <uc:VideoView x:Name="videoView" Margin="186,10,185,10">
-            <Grid>
-                <Button x:Name="prevVid_Button" Content="▲" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}" Click="prevVid_Click"/>
-                <Button x:Name="playPauseBtn" HorizontalAlignment="Left" Margin="0,150,0,0" VerticalAlignment="Top" Width="413" Height="120" Style="{DynamicResource ChangeVidBtn}" Click="playPause_Click">
+        <uc:VideoView x:Name="videoView" Margin="186,10,185,10" MouseWheel="videoView_MouseWheel">
+            <Grid MouseWheel="Grid_MouseWheel" SizeChanged="Grid_SizeChanged">
+                <Button x:Name="prevVid_Button" Content="▲" Margin="0,0,0,0" Style="{DynamicResource ChangeVidBtn}" Click="prevVid_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="413" Height="80"/>
+                <Button x:Name="playPauseBtn" Margin="0" Style="{DynamicResource ChangeVidBtn}" Click="playPause_Click" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="413" Height="120">
                     <Image Opacity="0.6">
                         <Image.Source>
                             <BitmapImage UriSource="/TikTokForWindows;component/Resources/pause-button.png"/>
                         </Image.Source>
                     </Image>
                 </Button>
-                <Button x:Name="nextVideo_Button" Content="▼" HorizontalAlignment="Left" Margin="0,311,0,0" VerticalAlignment="Top" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}" Click="nextVideo_Click"/>
-                <ProgressBar x:Name="videoProgress" HorizontalAlignment="Left" Height="5" Margin="0,386,0,0" VerticalAlignment="Top" Width="413" Value="50" Foreground="#FFB00606" />
+                <Button x:Name="nextVideo_Button" Content="▼" Margin="0,311,0,0" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}" Click="nextVideo_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                <ProgressBar x:Name="videoProgress" Height="5" Margin="0,386,0,0" Width="413" Value="50" Foreground="#FFB00606" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                <Label x:Name="volumeLabel" Content="Label" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="White" Opacity="0"/>
 
             </Grid>
         </uc:VideoView>
+        <Button Content="Button" Margin="42,133,0,0" VerticalAlignment="Top" Width="102" Height="61" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Padding="1"/>
+        <Slider x:Name="volumeSlider" HorizontalAlignment="Left" Margin="612,391,0,0" VerticalAlignment="Top" Maximum="100" ValueChanged="volumeSlider_ValueChanged" Width="170"/>
     </Grid>
 </Window>
