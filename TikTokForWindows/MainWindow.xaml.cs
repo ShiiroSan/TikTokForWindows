@@ -22,7 +22,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Image = System.Windows.Controls.Image;
 using MediaPlayer = LibVLCSharp.Shared.MediaPlayer;
-using Timer = System.Timers.Timer;
 
 namespace TikTokForWindows
 {
@@ -32,47 +31,40 @@ namespace TikTokForWindows
         private MediaPlayer _mp;
 
 
-        List<string> listOfUrls;
+        List<TikTokVideoObject> listOfVids;
         int positionOfUrlsList = -1;
 
-        List<string> getNewUrls()
+        List<TikTokVideoObject> getNewVids()
         {
-            List<string> listOfUrl = new List<string>();
+            List<TikTokVideoObject> listOfVids = new List<TikTokVideoObject>();
             JObject m_jsonTikTokFeed = JObject.Parse(GetTikTokShit.GetFeed());
             for (int i = 0; i < m_jsonTikTokFeed["aweme_list"].Count(); i++)
             {
-                var urlList = m_jsonTikTokFeed["aweme_list"][i]["video"]["play_addr"]["url_list"];
-                for (int j = 0; j < 3; j++)
-                {
-                    if (urlList[j].ToString().Contains("api2.musical.ly"))
-                    {
-                        listOfUrl.Add(urlList[j].ToString());
-                    }
-                }
+                listOfVids.Add(new TikTokVideoObject(m_jsonTikTokFeed["aweme_list"][i]));
             }
-            return listOfUrl;
+            return listOfVids;
         }
 
-        string getPrevUrl()
+        TikTokVideoObject getPrevVid()
         {
             positionOfUrlsList--;
             if (positionOfUrlsList < 0)
             {
-                listOfUrls.Clear();
-                listOfUrls.AddRange(getNewUrls()); //This is to reproduce when you do random search on foryou page
+                listOfVids.Clear();
+                listOfVids.AddRange(getNewVids()); //This is to reproduce when you do random search on foryou page
                 positionOfUrlsList = 0;
             }
-            return listOfUrls[positionOfUrlsList];
+            return listOfVids[positionOfUrlsList];
         }
 
-        string getNewUrl()
+        TikTokVideoObject getNewVid()
         {
             positionOfUrlsList++;
-            if (positionOfUrlsList == listOfUrls.Count)
+            if (positionOfUrlsList == listOfVids.Count)
             {
-                listOfUrls.AddRange(getNewUrls());
+                listOfVids.AddRange(getNewVids());
             }
-            return listOfUrls[positionOfUrlsList];
+            return listOfVids[positionOfUrlsList];
         }
 
 
@@ -85,9 +77,47 @@ namespace TikTokForWindows
 
         string videoURL;
 
+        DateTime volumeTimer = new DateTime();
+        Thread volumeThread;
+
+        private void volumeThreadFunc()
+        {
+            byte alphaVal = 0;
+            while (true)
+            {
+                if (volumeTimer > DateTime.Now)
+                {/*
+                    if (alphaVal < 255)
+                    {
+                        alphaVal += 100;
+                        if (alphaVal > 255) alphaVal = 255;
+                    }
+                    */
+                    alphaVal = 255;
+                }
+                else
+                {
+                    /*
+                    if (alphaVal != 0)
+                    {
+                        alphaVal -= 100;
+                        if (alphaVal < 0) alphaVal = 0;
+                    }
+                    */
+                    alphaVal = 0;
+                }
+                ThreadPool.QueueUserWorkItem(_ => volumeLabel.Dispatcher.Invoke(() => volumeLabel.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(alphaVal, 255, 255, 255))));
+                Thread.Sleep(300);
+            }
+        }
+
+
         public MainWindow()
         {
             InitializeComponent();
+            volumeTimer = DateTime.Now;
+            volumeThread = new Thread(volumeThreadFunc);
+            volumeThread.Start();
             //TikTokLogin.XorEncrypt("password");
             /* Following part is made to get libVLC DLLs, as they are not copied in main folder*/
             var currentAssembly = Assembly.GetEntryAssembly();
@@ -95,9 +125,10 @@ namespace TikTokForWindows
             string VlcLibDirectory = new DirectoryInfo(System.IO.Path.Combine(currentDirectory, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64")).FullName;
             Core.Initialize(VlcLibDirectory);
 
-            listOfUrls = getNewUrls();
-
-            videoURL = getNewUrl();
+            listOfVids = getNewVids();
+            var newVid = getNewVid();
+            videoURL = newVid.VideoUrl;
+            authorImage.Source = newVid.AuthorImage;
             Console.WriteLine(videoURL);
 
             _libVLC = new LibVLC("--verbose=2");
@@ -112,6 +143,7 @@ namespace TikTokForWindows
 
             _mp.TimeChanged += TimeChanged;
             _mp.EndReached += EndReached;
+            _mp.VolumeChanged += VolumeChanged;
 
             PlayImage = new Image();
             var UriStringPlay = @"pack://application:,,,/TikTokForWindows;component/Resources/play-button.png";
@@ -153,22 +185,30 @@ namespace TikTokForWindows
                     _mp.Volume -= 10;
                 }
             }
-            volumeSlider.Value = _mp.Volume;
-            volumeLabel.Dispatcher.Invoke(() => volumeLabel.Opacity = 100);
-            volumeLabel.Dispatcher.Invoke(() => volumeLabel.Content = _mp.Volume);
-            // Create a timer with a two second interval.
-            Timer aTimer = new Timer(5000);
-            // Hook up the Elapsed event for the timer. 
-            aTimer.Elapsed += async (sender, f) => await HideVolumeLabel();
-            aTimer.AutoReset = false;
-            aTimer.Enabled = true;
 
         }
-        private Task HideVolumeLabel()
+
+        private string NormalizeNumber(int numberToNormalize)
         {
-            volumeLabel.Dispatcher.Invoke(() => volumeLabel.Opacity = 0);
-            return Task.CompletedTask;
+            if (numberToNormalize > 1000 && numberToNormalize < 1000000)
+            {
+                float reducedNumber = (float)numberToNormalize / 1000;
+                if (reducedNumber > 99)
+                {
+                    return (int)reducedNumber + "K";
+                }
+                if (reducedNumber > 9 && reducedNumber < 100)
+                {
+                    return reducedNumber.ToString("##.#") + "K";
+                }
+                if (reducedNumber > 0 && reducedNumber < 10)
+                {
+                    return reducedNumber.ToString("#.##") + "K";
+                }
+            }
+            return numberToNormalize.ToString();
         }
+
         /*
          * GUI MANAGEMENT
          */
@@ -192,14 +232,31 @@ namespace TikTokForWindows
 
         private void nextVideo_Click(object sender, RoutedEventArgs e)
         {
-            videoURL = getNewUrl();
+            var newVid = getNewVid();
+
+            videoURL = newVid.VideoUrl;
+            authorImage.Source = newVid.AuthorImage;
+            authorNameLabel.Content = newVid.AuthorName;
+            videoDescriptionLabel.Document = newVid.VideoDesc;
+            likeNbrLabel.Content = NormalizeNumber(newVid.LikeNbr);
+            commentNbrLabel.Content = NormalizeNumber(newVid.CommentNbr);
+            shareNbrLabel.Content = NormalizeNumber(newVid.ShareNbr);
             Console.WriteLine(videoURL);
             _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
         }
 
         private void prevVid_Click(object sender, RoutedEventArgs e)
         {
-            videoURL = getPrevUrl();
+            videoURL = getPrevVid().VideoUrl;
+            var prevVid = getPrevVid();
+
+            videoURL = prevVid.VideoUrl;
+            authorImage.Source = prevVid.AuthorImage;
+            authorNameLabel.Content = prevVid.AuthorName;
+            videoDescriptionLabel.Document = prevVid.VideoDesc;
+            likeNbrLabel.Content = NormalizeNumber(prevVid.LikeNbr);
+            commentNbrLabel.Content = NormalizeNumber(prevVid.CommentNbr);
+            shareNbrLabel.Content = NormalizeNumber(prevVid.ShareNbr);
             Console.WriteLine(videoURL);
             _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
         }
@@ -224,6 +281,13 @@ namespace TikTokForWindows
             ThreadPool.QueueUserWorkItem(_ => videoProgress.Dispatcher.Invoke(() => videoProgress.Value = 0));
         }
 
+        private void VolumeChanged(object sender, EventArgs e)
+        {
+            ThreadPool.QueueUserWorkItem(_ => volumeSlider.Dispatcher.Invoke(() => volumeSlider.Value = _mp.Volume));
+            ThreadPool.QueueUserWorkItem(_ => volumeLabel.Dispatcher.Invoke(() => volumeLabel.Content = _mp.Volume));
+
+            volumeTimer = DateTime.Now.AddSeconds(4);
+        }
         private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             _mp.Volume = (int)volumeSlider.Value;

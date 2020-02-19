@@ -1,0 +1,2 @@
+﻿- VLC windows keep detaching from interface
+- Sound label disappearing too fast/slow
