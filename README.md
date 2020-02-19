@@ -23,7 +23,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * [LibVLCSharp](https://github.com/videolan/libvlcsharp) and [LibVLC](https://code.videolan.org/videolan/libvlc-nuget)* by **VideoLAN** is licensed under LGPL-2.1 or later - see the [LGPL-2.1](https://licenses.nuget.org/LGPL-2.1-or-later) file for details.
 
-*Newtonsoft.Json* by **James Newton-King** is licensed under LGPL-2.1 or later - see the [MIT](https://licenses.nuget.org/MIT) file for details.
+* *Newtonsoft.Json* by **James Newton-King** is licensed under LGPL-2.1 or later - see the [MIT](https://licenses.nuget.org/MIT) file for details.
 
 Anything directly related to TikTok is pure property of TikTok. 
 
