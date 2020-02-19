@@ -17,11 +17,11 @@ This project is not affiliated with [TikTok](https://www.tiktok.com/). We do not
 ## Licenses
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-*[libwebp-net](https://github.com/imazen/libwebp-net) by **imazen** is licensed under MIT - see the [MIT license](https://github.com/imazen/libwebp-net#license) for details.
+* [libwebp-net](https://github.com/imazen/libwebp-net) by **imazen** is licensed under MIT - see the [MIT license](https://github.com/imazen/libwebp-net#license) for details.
 
-*[libwebp](https://github.com/webmproject/libwebp) by **Google** is licensed under their own license - see the license [here](https://github.com/webmproject/libwebp/blob/master/COPYING) for the details.
+* [libwebp](https://github.com/webmproject/libwebp) by **Google** is licensed under their own license - see the license [here](https://github.com/webmproject/libwebp/blob/master/COPYING) for the details.
 
-*[LibVLCSharp](https://github.com/videolan/libvlcsharp) and [LibVLC](https://code.videolan.org/videolan/libvlc-nuget)* by **VideoLAN** is licensed under LGPL-2.1 or later - see the [LGPL-2.1](https://licenses.nuget.org/LGPL-2.1-or-later) file for details.
+* [LibVLCSharp](https://github.com/videolan/libvlcsharp) and [LibVLC](https://code.videolan.org/videolan/libvlc-nuget)* by **VideoLAN** is licensed under LGPL-2.1 or later - see the [LGPL-2.1](https://licenses.nuget.org/LGPL-2.1-or-later) file for details.
 
 *Newtonsoft.Json* by **James Newton-King** is licensed under LGPL-2.1 or later - see the [MIT](https://licenses.nuget.org/MIT) file for details.
 
