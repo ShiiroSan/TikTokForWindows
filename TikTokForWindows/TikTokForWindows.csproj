@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Google.Protobuf, Version=3.11.4.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.11.4\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
     <Reference Include="Imazen.WebP, Version=10.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Imazen.WebP.10.0.1\lib\net45\Imazen.WebP.dll</HintPath>
     </Reference>
@@ -49,9 +52,28 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="protobuf-net, Version=2.4.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\protobuf-net.2.4.4\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.2\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,6 +92,124 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Protobuf\ACLCommonStructV2.cs" />
+    <Compile Include="Protobuf\ActivityStructV2.cs" />
+    <Compile Include="Protobuf\ActivityTimeRangeV2.cs" />
+    <Compile Include="Protobuf\AdCoverTitleV2.cs" />
+    <Compile Include="Protobuf\AddressStructV2.cs" />
+    <Compile Include="Protobuf\AnchorCommonStructV2.cs" />
+    <Compile Include="Protobuf\AnchorShopLinkStructV2.cs" />
+    <Compile Include="Protobuf\AnchorStructV2.cs" />
+    <Compile Include="Protobuf\AnchorWikipediaStructV2.cs" />
+    <Compile Include="Protobuf\AnnouncementStructV2.cs" />
+    <Compile Include="Protobuf\AvatarDecorationStructV2.cs" />
+    <Compile Include="Protobuf\AwemeACLStructV2.cs" />
+    <Compile Include="Protobuf\AwemeAnchorStructV2.cs" />
+    <Compile Include="Protobuf\AwemeCommerceStickerStructV2.cs" />
+    <Compile Include="Protobuf\AwemeCommerceStructV2.cs" />
+    <Compile Include="Protobuf\AwemeControlStructV2.cs" />
+    <Compile Include="Protobuf\AwemeFloatingCardStructV2.cs" />
+    <Compile Include="Protobuf\AwemeGDAdStructV2.cs" />
+    <Compile Include="Protobuf\AwemeLabelStructV2.cs" />
+    <Compile Include="Protobuf\AwemeNationalTaskStructV2.cs" />
+    <Compile Include="Protobuf\AwemePromotionOtherStructV2.cs" />
+    <Compile Include="Protobuf\AwemeRiskStructV2.cs" />
+    <Compile Include="Protobuf\AwemeSearchStructV2.cs" />
+    <Compile Include="Protobuf\AwemeStarAtlasStructV2.cs" />
+    <Compile Include="Protobuf\AwemeStatisticsStructV2.cs" />
+    <Compile Include="Protobuf\AwemeStatusStructV2.cs" />
+    <Compile Include="Protobuf\AwemeStructV2.cs" />
+    <Compile Include="Protobuf\aweme_v2_feed_request.cs" />
+    <Compile Include="Protobuf\aweme_v2_feed_response.cs" />
+    <Compile Include="Protobuf\BannerTipV2.cs" />
+    <Compile Include="Protobuf\BitRateStructV2.cs" />
+    <Compile Include="Protobuf\BlueVBrandInfoStructV2.cs" />
+    <Compile Include="Protobuf\BranchBillboardWeeklyStructV2.cs" />
+    <Compile Include="Protobuf\CategoryCoverStructV2.cs" />
+    <Compile Include="Protobuf\ChallengeStructV2.cs" />
+    <Compile Include="Protobuf\CNYStructV2.cs" />
+    <Compile Include="Protobuf\CommentStructV2.cs" />
+    <Compile Include="Protobuf\CommerceActivityStructV2.cs" />
+    <Compile Include="Protobuf\CommerceConfigDataV2.cs" />
+    <Compile Include="Protobuf\CommerceInfoStructV2.cs" />
+    <Compile Include="Protobuf\CommercePermissionStructV2.cs" />
+    <Compile Include="Protobuf\CommerceStickerStructV2.cs" />
+    <Compile Include="Protobuf\CommerceStickerUnlockStructV2.cs" />
+    <Compile Include="Protobuf\CommerceUserStructV2.cs" />
+    <Compile Include="Protobuf\DescendantStructV2.cs" />
+    <Compile Include="Protobuf\DisclaimerStructV2.cs" />
+    <Compile Include="Protobuf\DouplusToastStructV2.cs" />
+    <Compile Include="Protobuf\EditHintV2.cs" />
+    <Compile Include="Protobuf\EffectArtistStructV2.cs" />
+    <Compile Include="Protobuf\ExternalSongStructV2.cs" />
+    <Compile Include="Protobuf\ExtraStructV2.cs" />
+    <Compile Include="Protobuf\FansStructV2.cs" />
+    <Compile Include="Protobuf\FollowersDetailV2.cs" />
+    <Compile Include="Protobuf\GameStructV2.cs" />
+    <Compile Include="Protobuf\GuideWordV2.cs" />
+    <Compile Include="Protobuf\HitTaskInfoV2.cs" />
+    <Compile Include="Protobuf\HotListStructV2.cs" />
+    <Compile Include="Protobuf\HotsearchSprintStructV2.cs" />
+    <Compile Include="Protobuf\IconButtonStructV2.cs" />
+    <Compile Include="Protobuf\ImageInfoStructV2.cs" />
+    <Compile Include="Protobuf\InteractionStickerStructV2.cs" />
+    <Compile Include="Protobuf\ItemCommentEggGroupV2.cs" />
+    <Compile Include="Protobuf\ItemCommentEggMaterialDataV2.cs" />
+    <Compile Include="Protobuf\ItemLikeEggDataV2.cs" />
+    <Compile Include="Protobuf\LifeStoryBlockStructV2.cs" />
+    <Compile Include="Protobuf\LinkUserInfoStructV2.cs" />
+    <Compile Include="Protobuf\LiveHonorStructV2.cs" />
+    <Compile Include="Protobuf\LogPbStructV2.cs" />
+    <Compile Include="Protobuf\LongVideoStructV2.cs" />
+    <Compile Include="Protobuf\MicroAppCardStructV2.cs" />
+    <Compile Include="Protobuf\MicroAppStructV2.cs" />
+    <Compile Include="Protobuf\MixStatisStructV2.cs" />
+    <Compile Include="Protobuf\MixStatusStructV2.cs" />
+    <Compile Include="Protobuf\MixStructV2.cs" />
+    <Compile Include="Protobuf\MusicStructV2.cs" />
+    <Compile Include="Protobuf\NationalTaskLinkStructV2.cs" />
+    <Compile Include="Protobuf\NewFaceStickerStructV2.cs" />
+    <Compile Include="Protobuf\OfflineInfoStructV2.cs" />
+    <Compile Include="Protobuf\OpenPlatformStructV2.cs" />
+    <Compile Include="Protobuf\OriginalMusicianStructV2.cs" />
+    <Compile Include="Protobuf\PermissionStructV2.cs" />
+    <Compile Include="Protobuf\PlatformSyncStatusStructV2.cs" />
+    <Compile Include="Protobuf\PoiBackendTypeStructV2.cs" />
+    <Compile Include="Protobuf\PoiCardStructV2.cs" />
+    <Compile Include="Protobuf\PoiFrontendTypeStructV2.cs" />
+    <Compile Include="Protobuf\PoiStructV2.cs" />
+    <Compile Include="Protobuf\PositionStructV2.cs" />
+    <Compile Include="Protobuf\PreloadStructV2.cs" />
+    <Compile Include="Protobuf\PromotionStructV2.cs" />
+    <Compile Include="Protobuf\PromotionVisitorV2.cs" />
+    <Compile Include="Protobuf\QuickShopSecondFloorV2.cs" />
+    <Compile Include="Protobuf\QuickShopStructV2.cs" />
+    <Compile Include="Protobuf\RecommendItemStructV2.cs" />
+    <Compile Include="Protobuf\RedPacketStructV2.cs" />
+    <Compile Include="Protobuf\RelationDynamicLableStructV2.cs" />
+    <Compile Include="Protobuf\RelationLabelStructV2.cs" />
+    <Compile Include="Protobuf\RelativeUserStructV2.cs" />
+    <Compile Include="Protobuf\RFansGroupInfoV2.cs" />
+    <Compile Include="Protobuf\ShareStructV2.cs" />
+    <Compile Include="Protobuf\SimpleUserStructV2.cs" />
+    <Compile Include="Protobuf\SmartPhoneSettingsStructV2.cs" />
+    <Compile Include="Protobuf\SpecialStickerStructV2.cs" />
+    <Compile Include="Protobuf\StarAtlasLinkStructV2.cs" />
+    <Compile Include="Protobuf\StickerPendantStructV2.cs" />
+    <Compile Include="Protobuf\StreamUrlStructV2.cs" />
+    <Compile Include="Protobuf\TextExtraStructV2.cs" />
+    <Compile Include="Protobuf\UrlStructV2.cs" />
+    <Compile Include="Protobuf\UserShopCategoryV2.cs" />
+    <Compile Include="Protobuf\UserStructV2.cs" />
+    <Compile Include="Protobuf\VideoControlV2.cs" />
+    <Compile Include="Protobuf\VideoStructV2.cs" />
+    <Compile Include="Protobuf\VideoTextStructV2.cs" />
+    <Compile Include="Protobuf\VoteOptionStructV2.cs" />
+    <Compile Include="Protobuf\VoteStructV2.cs" />
+    <Compile Include="Protobuf\VPAInfoStructV2.cs" />
+    <Compile Include="Protobuf\WebcastRoomFeedCellStructV2.cs" />
+    <Compile Include="Protobuf\WebcastRoomStructV2.cs" />
+    <Compile Include="Protobuf\XiguaTaskStructV2.cs" />
     <Compile Include="TikTokArgumentManager.cs" />
     <Compile Include="TikTokLogin.cs" />
     <Compile Include="TikTokVideoObject.cs" />

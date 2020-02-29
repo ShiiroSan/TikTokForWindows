@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProtoBuf;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,9 @@ namespace TikTokForWindows
 
         //StaticRequestParams staticRequestParams = new StaticRequestParams();
         // staticRequestParams.
-        public static string GetFeed()
+        public static aweme_v2_feed_response GetFeed()
         {
-            HttpWebRequest request = WebRequest.CreateHttp($"{api_url}/aweme/v1/feed/?channel={api_channel}&device_type={api_device}&os_version={api_osversion}&version_code={api_versioncode}&app_name={api_appname}&device_platform={api_plateform}&device_id={api_deviceid}&volume=0");
+            HttpWebRequest request = WebRequest.CreateHttp($"{api_url}/aweme/v2/feed/?channel={api_channel}&device_type={api_device}&os_version={api_osversion}&version_code={api_versioncode}&app_name={api_appname}&device_platform={api_plateform}&device_id={api_deviceid}&volume=0");
             HttpWebResponse response;
             try
             {
@@ -33,12 +34,8 @@ namespace TikTokForWindows
                 request.Accept = "text/html";
                 request.UserAgent = "okhttp/3.10.0.1"; //okhttp seems to bypass new issues caused by 2k20 :shrug:
                 response = (HttpWebResponse)request.GetResponse();
-                string sourcePage;
 
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    return sourcePage = reader.ReadToEnd();
-                }
+                return Serializer.Deserialize<aweme_v2_feed_response>(response.GetResponseStream());
             }
             catch (WebException e)
             {
@@ -46,10 +43,10 @@ namespace TikTokForWindows
                 MessageBox.Show(e.ToString()); //ADD THIS STRING FOR DEBUGGING, TO SEE IF THERE IS AN EXCEPTION.
                 if (n.StatusCode == HttpStatusCode.NotFound)
                 {
-                    return "";
+                    return null;
                 }
             }
-            return "";
+            return null;
         }
 
 

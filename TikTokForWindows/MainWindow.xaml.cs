@@ -37,11 +37,13 @@ namespace TikTokForWindows
         List<TikTokVideoObject> getNewVids()
         {
             List<TikTokVideoObject> listOfVids = new List<TikTokVideoObject>();
-            JObject m_jsonTikTokFeed = JObject.Parse(GetTikTokShit.GetFeed());
+            var m_jsonTikTokFeed = GetTikTokShit.GetFeed();
+            /*
             for (int i = 0; i < m_jsonTikTokFeed["aweme_list"].Count(); i++)
             {
                 listOfVids.Add(new TikTokVideoObject(m_jsonTikTokFeed["aweme_list"][i]));
             }
+            */
             return listOfVids;
         }
 
