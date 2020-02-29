@@ -33,5 +33,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 Anything directly related to TikTok is pure property of TikTok. 
 
 ## Images
-* **Nikin at Pixabay** - *Play Button* - [Play Button](https://pixabay.com/vectors/play-button-button-play-sign-audio-2138735/)
-* **Nikin at Pixabay** - *Pause Button* - [Pause Button](https://pixabay.com/vectors/pause-button-pause-icon-icon-2148106/)
+* *modified* **Nikin at Pixabay** - *Play Button* - [Play Button](https://pixabay.com/vectors/play-button-button-play-sign-audio-2138735/)
+* *modified* **Nikin at Pixabay** - *Pause Button* - [Pause Button](https://pixabay.com/vectors/pause-button-pause-icon-icon-2148106/)
