@@ -15,6 +15,7 @@ These libraries is needed in order to be able to compile it.
 
 # Copyrights & Licenses
 This project is not affiliated with [TikTok](https://www.tiktok.com/). We do not host any of the TikTok videos or images on our servers, all rights belong to their respective owners.
+Please, ByteDance, contact me before calling the police. Please.
 ## Licenses
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
