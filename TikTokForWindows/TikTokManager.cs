@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace TikTokForWindows
 {
-    class GetTikTokShit
+    class TikTokManager
     {
         private static string api_url = "http://api2.musical.ly";
         private static string api_channel = "googleplay";
@@ -48,7 +48,5 @@ namespace TikTokForWindows
             }
             return null;
         }
-
-
     }
 }

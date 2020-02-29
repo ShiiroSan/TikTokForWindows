@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 
 namespace TikTokForWindows
 {
-    class TikTokVideoObject
+    class TikTokSimplifiedObject
     {
         public string AuthorName { get; set; }
         public BitmapImage AuthorImage { get; set; }
@@ -26,10 +26,10 @@ namespace TikTokForWindows
         public int ShareNbr { get; set; }
         public FlowDocument VideoDesc { get; set; }
 
-        public TikTokVideoObject(JToken TikTokJSONElement)
+        public TikTokSimplifiedObject(AwemeStructV2 TikTokAwemeStructV2)
         {
-            AuthorName = TikTokJSONElement["author"]["nickname"].ToString();
-            var request = WebRequest.Create(TikTokJSONElement["author"]["avatar_medium"]["url_list"][0].ToString());
+            AuthorName = TikTokAwemeStructV2.author.nickname;
+            var request = WebRequest.Create(TikTokAwemeStructV2.author.avatar_medium.url_list[0]);
             using (var response = request.GetResponse())
             using (var stream = response.GetResponseStream())
             {
@@ -49,10 +49,10 @@ namespace TikTokForWindows
 
                 }
             }
-            LikeNbr = int.Parse(TikTokJSONElement["statistics"]["digg_count"].ToString());
-            CommentNbr = int.Parse(TikTokJSONElement["statistics"]["comment_count"].ToString());
-            ShareNbr = int.Parse(TikTokJSONElement["statistics"]["share_count"].ToString());
-            var urlList = TikTokJSONElement["video"]["play_addr"]["url_list"];
+            LikeNbr = int.Parse(TikTokAwemeStructV2.statistics.digg_count.ToString());
+            CommentNbr = int.Parse(TikTokAwemeStructV2.statistics.comment_count.ToString());
+            ShareNbr = int.Parse(TikTokAwemeStructV2.statistics.share_count.ToString());
+            var urlList = TikTokAwemeStructV2.video.play_addr.url_list;
             for (int j = 0; j < 3; j++)
             {
                 if (urlList[j].ToString().Contains("api2.musical.ly"))
@@ -60,7 +60,7 @@ namespace TikTokForWindows
                     VideoUrl = urlList[j].ToString();
                 }
             }
-            VideoDesc = makeNiceDesc(TikTokJSONElement["desc"].ToString());
+            VideoDesc = makeNiceDesc(TikTokAwemeStructV2.desc);
         }
 
         private FlowDocument makeNiceDesc(string videoDesc)

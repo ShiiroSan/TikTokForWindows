@@ -212,7 +212,8 @@
     <Compile Include="Protobuf\XiguaTaskStructV2.cs" />
     <Compile Include="TikTokArgumentManager.cs" />
     <Compile Include="TikTokLogin.cs" />
-    <Compile Include="TikTokVideoObject.cs" />
+    <Compile Include="TikTokSimplifiedObject.cs" />
+    <Compile Include="Utils.cs" />
     <Page Include="Dictionary1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -225,7 +226,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GetTikTokShit.cs" />
+    <Compile Include="TikTokManager.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
