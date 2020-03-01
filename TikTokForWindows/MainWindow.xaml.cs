@@ -32,8 +32,12 @@ namespace TikTokForWindows
 
         Image PlayImage;
         Image PauseImage;
+        Image LikeImage;
+        Image NotlikeImage;
         BitmapImage PlayBitmapImage;
         BitmapImage PauseBitmapImage;
+        BitmapImage LikeBitmapImage;
+        BitmapImage NotlikeBitmapImage;
 
         private void volumeThreadFunc()
         {
@@ -61,7 +65,14 @@ namespace TikTokForWindows
                     */
                     alphaVal = 0;
                 }
-                ThreadPool.QueueUserWorkItem(_ => volumeLabel.Dispatcher.Invoke(() => volumeLabel.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(alphaVal, 255, 255, 255))));
+                try
+                {
+                    ThreadPool.QueueUserWorkItem(_ => volumeLabel.Dispatcher.Invoke(() => volumeLabel.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromArgb(alphaVal, 255, 255, 255))));
+                }
+                catch (Exception)
+                {
+                }
+
                 Thread.Sleep(300);
             }
         }
@@ -112,6 +123,18 @@ namespace TikTokForWindows
             var UriBitmapImageSourcePause = new Uri(UriStringPause, UriKind.Absolute);
             PauseBitmapImage = new BitmapImage(UriBitmapImageSourcePause);
             PauseImage.Source = PauseBitmapImage;
+
+            LikeImage = new Image();
+            var UriStringLike = @"pack://application:,,,/TikTokForWindows;component/Resources/like-button.png";
+            var UriBitmapImageSourceLike = new Uri(UriStringLike, UriKind.Absolute);
+            LikeBitmapImage = new BitmapImage(UriBitmapImageSourceLike);
+            LikeImage.Source = LikeBitmapImage;
+
+            NotlikeImage = new Image();
+            var UriStringNotLike = @"pack://application:,,,/TikTokForWindows;component/Resources/notlike-button.png";
+            var UriBitmapImageSourceNotLike = new Uri(UriStringNotLike, UriKind.Absolute);
+            NotlikeBitmapImage = new BitmapImage(UriBitmapImageSourceNotLike);
+            NotlikeImage.Source = NotlikeBitmapImage;
         }
 
         /** VIDEO MANAGEMENT **/
@@ -215,7 +238,7 @@ namespace TikTokForWindows
 
             videoURL = newVid.VideoUrl;
             authorImage.Source = newVid.AuthorImage;
-            authorNameLabel.Content = newVid.AuthorName;
+            authorNameLabel.Text = newVid.AuthorName;
             videoDescriptionLabel.Document = newVid.VideoDesc;
             likeNbrLabel.Content = Utils.NormalizeNumber(newVid.LikeNbr);
             commentNbrLabel.Content = Utils.NormalizeNumber(newVid.CommentNbr);
@@ -232,7 +255,7 @@ namespace TikTokForWindows
 
             videoURL = prevVid.VideoUrl;
             authorImage.Source = prevVid.AuthorImage;
-            authorNameLabel.Content = prevVid.AuthorName;
+            authorNameLabel.Text = prevVid.AuthorName;
             videoDescriptionLabel.Document = prevVid.VideoDesc;
             likeNbrLabel.Content = Utils.NormalizeNumber(prevVid.LikeNbr);
             commentNbrLabel.Content = Utils.NormalizeNumber(prevVid.CommentNbr);
@@ -304,6 +327,30 @@ namespace TikTokForWindows
 
                 videoProgress.Width *= xRatio;
                 videoProgress.Height *= yRatio;
+
+                bullshit_Button.Width *= xRatio;
+                bullshit_Button.Height *= yRatio;
+            }
+        }
+
+        private void Label_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            volumeManagement(e);
+        }
+
+        bool liked = false;
+
+        private void likeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (liked)
+            {
+                liked = !liked;
+                likeBtn.Content = LikeImage;
+            }
+            else
+            {
+                liked = !liked;
+                likeBtn.Content = NotlikeImage;
             }
         }
     }

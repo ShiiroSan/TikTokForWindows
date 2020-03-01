@@ -69,8 +69,13 @@ namespace TikTokForWindows
             Paragraph para = new Paragraph();
             foreach (var word in videoDescArr)
             {
+                var mention = Regex.Match(word, @"\@[^\@\n\s]+");
                 var hashtags = Regex.Match(word, @"\#[^\#\n\s]+");
-                if (hashtags.Success)
+                if (mention.Success)
+                {
+                    para.Inlines.Add(new Bold(new Run(mention.Value + " ")));
+                }
+                else if (hashtags.Success)
                 {
                     para.Inlines.Add(new Run(hashtags.Value + " ")
                     {

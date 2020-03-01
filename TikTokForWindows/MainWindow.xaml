@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TikTokForWindows"
         xmlns:uc="clr-namespace:LibVLCSharp.WPF;assembly=LibVLCSharp.WPF"
+        xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="961" Width="867" MouseWheel="Window_MouseWheel">
     <Window.Resources>
@@ -19,6 +20,7 @@
         <uc:VideoView x:Name="videoView" Margin="10,10,20,10" MouseWheel="videoView_MouseWheel">
             <Grid MouseWheel="Grid_MouseWheel" SizeChanged="Grid_SizeChanged">
                 <Button x:Name="prevVid_Button" Content="▲" Margin="0,0,0,0" Style="{DynamicResource ChangeVidBtn}" Click="prevVid_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="413" Height="80"/>
+                <Button x:Name="bullshit_Button" Content="" Margin="0" Style="{DynamicResource bullshitBtn}" Width="429" Height="750"/>
                 <Button x:Name="playPauseBtn" Margin="0" Style="{DynamicResource ChangeVidBtn}" Click="playPause_Click" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="413" Height="120">
                     <Image Opacity="0.6">
                         <Image.Source>
@@ -30,25 +32,30 @@
                 <ProgressBar x:Name="videoProgress" Height="5" Margin="0,386,0,0" Width="413" Value="50" Foreground="#FFB00606" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
                 <Label x:Name="volumeLabel" Content="Label" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="White" Opacity="100"/>
 
+
             </Grid>
         </uc:VideoView>
         <Slider x:Name="volumeSlider" HorizontalAlignment="Left" Margin="42,420,0,0" VerticalAlignment="Top" Maximum="100" ValueChanged="volumeSlider_ValueChanged" Width="189" Grid.Column="1"/>
-        <Image x:Name="authorImage" HorizontalAlignment="Left" Height="43" Margin="217,10,0,0" VerticalAlignment="Top" Width="43" Grid.Column="1"/>
-        <Label x:Name="authorNameLabel" Content="AUTHORNAME PLACEHOLDER" HorizontalAlignment="Left" Margin="18,10,0,0" VerticalAlignment="Top" Width="194" Height="43" VerticalContentAlignment="Center" Grid.Column="1" FontWeight="Bold"/>
-        <Button x:Name="likeBtn" Content="" HorizontalAlignment="Left" Margin="236,60,0,0" VerticalAlignment="Top" Width="24" Height="24" RenderTransformOrigin="0.542,1.25" Grid.Column="1"/>
-        <Label x:Name="likeNbrLabel" Content="10k" HorizontalAlignment="Left" Margin="191,59,0,0" VerticalAlignment="Top" Width="40" Height="24" Grid.Column="1" HorizontalContentAlignment="Right"/>
-        <Button x:Name="commentBtn" Content="" HorizontalAlignment="Left" Margin="236,98,0,0" VerticalAlignment="Top" Width="24" Height="24" RenderTransformOrigin="0.542,1.25" Grid.Column="1"/>
-        <Label x:Name="commentNbrLabel" Content="10k" HorizontalAlignment="Left" Margin="191,97,0,0" VerticalAlignment="Top" Width="40" Height="24" Grid.Column="1" HorizontalContentAlignment="Right"/>
-        <Button x:Name="shareBtn" Content="" HorizontalAlignment="Left" Margin="236,136,0,0" VerticalAlignment="Top" Width="24" Height="24" RenderTransformOrigin="0.542,1.25" Grid.Column="1"/>
-        <Label x:Name="shareNbrLabel" Content="5k" HorizontalAlignment="Left" Margin="191,135,0,0" VerticalAlignment="Top" Width="40" Height="24" Grid.Column="1" HorizontalContentAlignment="Right"/>
-        <RichTextBox x:Name="videoDescriptionLabel" Grid.Column="1" HorizontalAlignment="Left" Height="150" Margin="18,58,0,0" VerticalAlignment="Top" Width="156" AcceptsReturn="False" AutoWordSelection="False" BorderThickness="0" IsUndoEnabled="False" IsReadOnly="True">
+        <Image x:Name="authorImage" HorizontalAlignment="Left" Height="58" Margin="227,10,0,0" VerticalAlignment="Top" Width="59" Grid.Column="1"/>
+        <emoji:TextBlock x:Name="authorNameLabel" Text="AUTHORNAME PLACEHOLDER" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="194" Height="43" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
+        <Button x:Name="likeBtn" Style="{DynamicResource likeBtn}" HorizontalAlignment="Left" Margin="236,80,0,0" VerticalAlignment="Top" Width="40" Height="40" RenderTransformOrigin="0.542,1.25" Grid.Column="1" Opacity="1" Click="likeBtn_Click">
+            <Image Height="38" Width="38">
+                <Image.Source>
+                    <BitmapImage UriSource="/TikTokForWindows;component/Resources/notlike-button.png"/>
+                </Image.Source>
+            </Image>
+        </Button>
+        <Label x:Name="likeNbrLabel" Content="10k" HorizontalAlignment="Left" Margin="191,90,0,0" VerticalAlignment="Top" Width="40" Height="30" Grid.Column="1" HorizontalContentAlignment="Right"/>
+        <Button x:Name="commentBtn" Content="" HorizontalAlignment="Left" Margin="236,125,0,0" VerticalAlignment="Top" Width="40" Height="40" RenderTransformOrigin="0.542,1.25" Grid.Column="1"/>
+        <Label x:Name="commentNbrLabel" Content="10k" HorizontalAlignment="Left" Margin="191,133,0,0" VerticalAlignment="Top" Width="40" Height="32" Grid.Column="1" HorizontalContentAlignment="Right"/>
+        <Button x:Name="shareBtn" Content="" HorizontalAlignment="Left" Margin="236,170,0,0" VerticalAlignment="Top" Width="40" Height="40" RenderTransformOrigin="0.542,1.25" Grid.Column="1"/>
+        <Label x:Name="shareNbrLabel" Content="5k" HorizontalAlignment="Left" Margin="191,178,0,0" VerticalAlignment="Top" Width="40" Height="32" Grid.Column="1" HorizontalContentAlignment="Right" RenderTransformOrigin="0.533,1"/>
+        <emoji:RichTextBox x:Name="videoDescriptionLabel" Grid.Column="1" HorizontalAlignment="Left" Height="162" Margin="18,80,0,0" VerticalAlignment="Top" Width="156" AcceptsReturn="False" AutoWordSelection="False" BorderThickness="0" IsUndoEnabled="False" IsReadOnly="True">
             <FlowDocument>
                 <Paragraph>
-                    <Run Text="TEST DE %MUdsfmlùsdqqùmlfqsùqqsmùlfqsdùmlfqdùmlf"/>
-                    <Run Text=" "/>
-                    <Run Text="ùmlqdfùlmqdùmlfqdlùmfqdùlmflqùdmf"/>
+                    <Run Text="DESCRIPTION PLACEHOLDER"/>
                 </Paragraph>
             </FlowDocument>
-        </RichTextBox>
+        </emoji:RichTextBox>
     </Grid>
 </Window>
