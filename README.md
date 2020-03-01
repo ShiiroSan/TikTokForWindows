@@ -5,6 +5,7 @@ Right now, the main project is in pause. I'll be able to do more as soon as I fu
 # Building
 
 These libraries is needed in order to be able to compile it.
+* [emoji.wpf](https://github.com/samhocevar/emoji.wpf)
 * [LibVLCSharp](https://github.com/videolan/libvlcsharp)
 * [LibVLC](https://code.videolan.org/videolan/libvlc-nuget)
 * [Newtonsoft.JSON](https://www.nuget.org/packages/Newtonsoft.Json)
@@ -19,6 +20,7 @@ This project is not affiliated with [TikTok](https://www.tiktok.com/). We do not
 Please, ByteDance, contact me before calling the police. Please.
 ## Licenses
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+* *[emoji.wpf](https://github.com/samhocevar/emoji.wpf)* by **[samhocevar](https://github.com/samhocevar)** is licensed under WTFPL - see the [WTFPL license](https://github.com/samhocevar/emoji.wpf/blob/master/COPYING) for details.
 
 * *[protobuf-net](https://github.com/protobuf-net/protobuf-net)* by **[mgravell](https://github.com/mgravell)** is licensed under his own license - see the license [here](https://github.com/protobuf-net/protobuf-net/blob/master/Licence.txt) for the details. 
 
@@ -33,5 +35,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 Anything directly related to TikTok is pure property of TikTok. 
 
 ## Images
-* *modified* **Nikin at Pixabay** - *Play Button* - [Play Button](https://pixabay.com/vectors/play-button-button-play-sign-audio-2138735/)
-* *modified* **Nikin at Pixabay** - *Pause Button* - [Pause Button](https://pixabay.com/vectors/pause-button-pause-icon-icon-2148106/)
+* *modified by ShiiroSan* **Nikin at Pixabay** - *Play Button* - [Play Button](https://pixabay.com/vectors/play-button-button-play-sign-audio-2138735/)
+* *modified by ShiiroSan* **Nikin at Pixabay** - *Pause Button* - [Pause Button](https://pixabay.com/vectors/pause-button-pause-icon-icon-2148106/)
+* **Bagande at Wikimedia Foundations** - *Heart icon red hollow* - [Heart icon red hollow](https://commons.wikimedia.org/wiki/File:Heart_icon_red_hollow.svg)
+* *modified by ShiiroSan* **Bagande at Wikimedia Foundations** - *Heart icon red hollow* - [Heart icon red hollow](https://commons.wikimedia.org/wiki/File:Heart_icon_red_hollow.svg)
