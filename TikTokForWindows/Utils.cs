@@ -26,6 +26,22 @@ namespace TikTokForWindows
                     return reducedNumber.ToString("#.##") + "K";
                 }
             }
+            else if (numberToNormalize > 999999 && numberToNormalize < 10000000)
+            {
+                float reducedNumber = (float)numberToNormalize / 1000000;
+                if (reducedNumber > 99)
+                {
+                    return (int)reducedNumber + "M";
+                }
+                if (reducedNumber > 9 && reducedNumber < 100)
+                {
+                    return reducedNumber.ToString("##.#") + "M";
+                }
+                if (reducedNumber > 0 && reducedNumber < 10)
+                {
+                    return reducedNumber.ToString("#.##") + "M";
+                }
+            }
             return numberToNormalize.ToString();
         }
     }

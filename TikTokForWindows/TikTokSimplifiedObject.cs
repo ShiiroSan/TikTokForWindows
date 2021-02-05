@@ -45,6 +45,7 @@ namespace TikTokForWindows
                         stream.CopyTo(ms);
                         Bitmap webpConverted = new Imazen.WebP.SimpleDecoder().DecodeFromBytes(ms.ToArray(), ms.Length);
                         AuthorImage = Convert(webpConverted);
+                        
                     }
 
                 }
@@ -55,7 +56,7 @@ namespace TikTokForWindows
             var urlList = TikTokAwemeStructV2.video.play_addr.url_list;
             for (int j = 0; j < 3; j++)
             {
-                if (urlList[j].ToString().Contains("api2.musical.ly"))
+                if (urlList[j].ToString().Contains("aweme"))
                 {
                     VideoUrl = urlList[j].ToString();
                 }

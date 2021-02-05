@@ -14,10 +14,10 @@
     </Window.Resources>
     <Grid MouseWheel="Window_MouseWheel">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="232*"/>
-            <ColumnDefinition Width="135*"/>
+            <ColumnDefinition Width="528*"/>
+            <ColumnDefinition Width="299*"/>
         </Grid.ColumnDefinitions>
-        <uc:VideoView x:Name="videoView" Margin="10,10,20,10" MouseWheel="videoView_MouseWheel">
+        <uc:VideoView x:Name="videoView" MouseWheel="videoView_MouseWheel">
             <Grid MouseWheel="Grid_MouseWheel" SizeChanged="Grid_SizeChanged">
                 <Button x:Name="prevVid_Button" Content="▲" Margin="0,0,0,0" Style="{DynamicResource ChangeVidBtn}" Click="prevVid_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="413" Height="80"/>
                 <Button x:Name="bullshit_Button" Content="" Margin="0" Style="{DynamicResource bullshitBtn}" Width="429" Height="750"/>
@@ -29,33 +29,51 @@
                     </Image>
                 </Button>
                 <Button x:Name="nextVideo_Button" Content="▼" Margin="0,311,0,0" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}" Click="nextVideo_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                <ProgressBar x:Name="videoProgress" Height="5" Margin="0,386,0,0" Width="413" Value="50" Foreground="#FFB00606" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                <ProgressBar x:Name="videoProgress" Height="5" Margin="0,386,0,0" Value="50" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="#00E6E6E6" Width="543"/>
                 <Label x:Name="volumeLabel" Content="Label" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="White" Opacity="100"/>
-
-
             </Grid>
         </uc:VideoView>
-        <Slider x:Name="volumeSlider" HorizontalAlignment="Left" Margin="42,420,0,0" VerticalAlignment="Top" Maximum="100" ValueChanged="volumeSlider_ValueChanged" Width="189" Grid.Column="1"/>
-        <Image x:Name="authorImage" HorizontalAlignment="Left" Height="58" Margin="227,10,0,0" VerticalAlignment="Top" Width="59" Grid.Column="1"/>
-        <emoji:TextBlock x:Name="authorNameLabel" Text="AUTHORNAME PLACEHOLDER" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="194" Height="43" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
-        <Button x:Name="likeBtn" Style="{DynamicResource likeBtn}" HorizontalAlignment="Left" Margin="236,80,0,0" VerticalAlignment="Top" Width="40" Height="40" RenderTransformOrigin="0.542,1.25" Grid.Column="1" Opacity="1" Click="likeBtn_Click">
+        <!-- Rounded yellow border -->
+        <Border BorderThickness="2" BorderBrush="Black" CornerRadius="30" Padding="1" Margin="241,0,0,860" Grid.Column="1" HorizontalAlignment="Left" Width="60" Height="60" VerticalAlignment="Bottom">
+            <Grid>
+                <!-- Rounded mask (stretches to fill Grid) -->
+                <Border Name="mask" Background="White" CornerRadius="30"/>
+                <!-- Main content container -->
+                <StackPanel>
+                    <!-- Use a VisualBrush of 'mask' as the opacity mask -->
+                    <StackPanel.OpacityMask>
+                        <VisualBrush Visual="{Binding ElementName=mask}"/>
+                    </StackPanel.OpacityMask>
+                    <!-- Any content -->
+                    <Image x:Name="authorImage"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Slider x:Name="volumeSlider" Margin="77,0,0,5" Maximum="100" ValueChanged="volumeSlider_ValueChanged" Grid.Column="1" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="229"/>
+        <emoji:TextBlock x:Name="authorNameLabel" Text="AUTHORNAME PLACEHOLDER" Margin="5,20,75,867" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
+        <Button x:Name="likeBtn" Style="{DynamicResource likeBtn}" Margin="261,0,0,813" RenderTransformOrigin="0.542,1.25" Grid.Column="1" Opacity="1" Click="likeBtn_Click" HorizontalAlignment="Left" Width="40" Height="40" VerticalAlignment="Bottom" Background="#00DDDDDD">
             <Image Height="38" Width="38">
                 <Image.Source>
                     <BitmapImage UriSource="/TikTokForWindows;component/Resources/notlike-button.png"/>
                 </Image.Source>
             </Image>
         </Button>
-        <Label x:Name="likeNbrLabel" Content="10k" HorizontalAlignment="Left" Margin="191,90,0,0" VerticalAlignment="Top" Width="40" Height="30" Grid.Column="1" HorizontalContentAlignment="Right"/>
-        <Button x:Name="commentBtn" Content="" HorizontalAlignment="Left" Margin="236,125,0,0" VerticalAlignment="Top" Width="40" Height="40" RenderTransformOrigin="0.542,1.25" Grid.Column="1"/>
-        <Label x:Name="commentNbrLabel" Content="10k" HorizontalAlignment="Left" Margin="191,133,0,0" VerticalAlignment="Top" Width="40" Height="32" Grid.Column="1" HorizontalContentAlignment="Right"/>
-        <Button x:Name="shareBtn" Content="" HorizontalAlignment="Left" Margin="236,170,0,0" VerticalAlignment="Top" Width="40" Height="40" RenderTransformOrigin="0.542,1.25" Grid.Column="1"/>
-        <Label x:Name="shareNbrLabel" Content="5k" HorizontalAlignment="Left" Margin="191,178,0,0" VerticalAlignment="Top" Width="40" Height="32" Grid.Column="1" HorizontalContentAlignment="Right" RenderTransformOrigin="0.533,1"/>
-        <emoji:RichTextBox x:Name="videoDescriptionLabel" Grid.Column="1" HorizontalAlignment="Left" Height="162" Margin="18,80,0,0" VerticalAlignment="Top" Width="156" AcceptsReturn="False" AutoWordSelection="False" BorderThickness="0" IsUndoEnabled="False" IsReadOnly="True">
+        <Label x:Name="likeNbrLabel" Content="10k" Margin="195,0,0,805" VerticalAlignment="Bottom" Height="40" Grid.Column="1" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Width="61"/>
+        <Button x:Name="commentBtn" Content="" Margin="261,0,0,768" RenderTransformOrigin="0.542,1.25" Grid.Column="1" HorizontalAlignment="Left" Width="40" Height="40" VerticalAlignment="Bottom"/>
+        <Label x:Name="commentNbrLabel" Content="10k" Margin="195,0,55,768" VerticalAlignment="Bottom" Height="32" Grid.Column="1" HorizontalContentAlignment="Right"/>
+        <Button x:Name="shareBtn" Content="" Margin="261,0,0,723" RenderTransformOrigin="0.542,1.25" Grid.Column="1" HorizontalAlignment="Left" Width="40" Height="40" VerticalAlignment="Bottom"/>
+        <Label x:Name="shareNbrLabel" Content="5k" Margin="195,0,55,723" VerticalAlignment="Bottom" Height="32" Grid.Column="1" HorizontalContentAlignment="Right" RenderTransformOrigin="0.533,1"/>
+        <emoji:RichTextBox x:Name="videoDescriptionLabel" Height="162" Margin="0,0,116,691" VerticalAlignment="Bottom" AcceptsReturn="False" AutoWordSelection="False" BorderThickness="0" IsUndoEnabled="False" IsReadOnly="True" Grid.Column="1">
             <FlowDocument>
                 <Paragraph>
                     <Run Text="DESCRIPTION PLACEHOLDER"/>
                 </Paragraph>
             </FlowDocument>
         </emoji:RichTextBox>
+        <TextBox x:Name="rawLinkText" Grid.Column="1" Margin="77,0,0,590" TextWrapping="NoWrap" Text="" IsReadOnly="True" HorizontalAlignment="Left" Width="224" Height="23" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="shareLinkText" Grid.Column="1" Margin="77,0,0,618" TextWrapping="NoWrap" Text="" IsReadOnly="True" HorizontalAlignment="Left" Width="224" Height="23" VerticalAlignment="Bottom"/>
+        <Label Content="Share link" Grid.Column="1" Margin="0,0,0,615" HorizontalAlignment="Left" Width="62" Height="26" VerticalAlignment="Bottom"/>
+        <Label Content="Raw link" Grid.Column="1" Margin="0,0,0,590" HorizontalAlignment="Left" Width="54" Height="26" VerticalAlignment="Bottom"/>
+        <Label Content="Volume" Grid.Column="1" Margin="10,0,0,10" HorizontalAlignment="Left" Width="50" Height="26" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

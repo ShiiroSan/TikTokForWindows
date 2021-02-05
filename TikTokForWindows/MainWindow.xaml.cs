@@ -92,21 +92,26 @@ namespace TikTokForWindows
             Core.Initialize(VlcLibDirectory);
 
             listOfTikTokObj = getNewTikTokObjList();
-            AwemeStructV2 newVid = getNextTikTokObj();
-            TikTokSimplifiedObject tikTokSimplifiedObject = new TikTokSimplifiedObject(newVid);
-            videoURL = tikTokSimplifiedObject.VideoUrl;
-            authorImage.Source = tikTokSimplifiedObject.AuthorImage;
-            Console.WriteLine(videoURL);
+            var newVid = new TikTokSimplifiedObject(getNextTikTokObj());
 
-            _libVLC = new LibVLC("--verbose=2");
+            videoURL = newVid.VideoUrl;
+            authorImage.Source = newVid.AuthorImage;
+            authorNameLabel.Text = newVid.AuthorName;
+            videoDescriptionLabel.Document = newVid.VideoDesc;
+            likeNbrLabel.Content = Utils.NormalizeNumber(newVid.LikeNbr);
+            commentNbrLabel.Content = Utils.NormalizeNumber(newVid.CommentNbr);
+            shareNbrLabel.Content = Utils.NormalizeNumber(newVid.ShareNbr);
+            rawLinkText.Text = newVid.VideoUrl;
+
+            _libVLC = new LibVLC("");
             _mp = new MediaPlayer(_libVLC);
-            videoView.Loaded += (sender, e) => videoView.MediaPlayer = _mp;
+            videoView.MediaPlayer = _mp;
 
-            _mp.Volume = 30;
+            _mp.Volume = 10;
             volumeSlider.Value = _mp.Volume;
 
-            _mp.Play(new Media(_libVLC, "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", FromType.FromLocation));
-            //_mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
+            var mediaVid = new Media(_libVLC, videoURL, FromType.FromLocation);
+            _mp.Play(mediaVid);
 
             _mp.TimeChanged += TimeChanged;
             _mp.EndReached += EndReached;
@@ -193,7 +198,7 @@ namespace TikTokForWindows
                 }
                 else
                 {
-                    _mp.Volume += 10;
+                    _mp.Volume += 5;
                 }
             }
 
@@ -205,7 +210,7 @@ namespace TikTokForWindows
                 }
                 else
                 {
-                    _mp.Volume -= 10;
+                    _mp.Volume -= 5;
                 }
             }
 
@@ -243,8 +248,7 @@ namespace TikTokForWindows
             likeNbrLabel.Content = Utils.NormalizeNumber(newVid.LikeNbr);
             commentNbrLabel.Content = Utils.NormalizeNumber(newVid.CommentNbr);
             shareNbrLabel.Content = Utils.NormalizeNumber(newVid.ShareNbr);
-
-            Console.WriteLine(videoURL);
+            rawLinkText.Text = newVid.VideoUrl;
             _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
 
         }
@@ -260,7 +264,7 @@ namespace TikTokForWindows
             likeNbrLabel.Content = Utils.NormalizeNumber(prevVid.LikeNbr);
             commentNbrLabel.Content = Utils.NormalizeNumber(prevVid.CommentNbr);
             shareNbrLabel.Content = Utils.NormalizeNumber(prevVid.ShareNbr);
-            Console.WriteLine(videoURL);
+            rawLinkText.Text = prevVid.VideoUrl;
             _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
 
         }
