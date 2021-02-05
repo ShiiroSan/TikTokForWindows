@@ -75,53 +75,32 @@ namespace ParameterLister
                         BagOfCandies.Add(IAmBoredOfUsingVarName);
                 }
             }
-            string pattern = @"(?:(http(?:s|)\:\/\/(?:[^?]*))|)(?:\&|\?)([^=]*)\=([^&]*)";
-            /*
-             * (?:(http(?:s|)\:\/\/(?:[^?]*))|) --> Capture the url
-             * (?:\&|\?)([^=]*)\= --> Capture the argument
-             * ([^&]*) --> capture the value
-             */
-            RegexOptions options = RegexOptions.Multiline;
 
-
-            var argList = new List<string>();
-            var valList = new List<string>();
-            var redudancyList = new List<int>();
-
-            /*TODO:
-             * Rearrange data
-             * So I'll be able to display data correctly. Right now I've no clue on how to 
-             * draw gathered info...
-            */
+            var urlList = new List<URLParamArgs>();
 
             foreach (string candie in BagOfCandies)
             {
-                var Lollipops = Regex.Matches(candie, pattern, options);
-                for (int i = 0; i < Lollipops.Count; i++)
+                urlList.Add(new URLParamArgs(candie));
+            }
+            var uniqArgList = new Dictionary<string, UniqArg>();
+            foreach (URLParamArgs url in urlList)
+            {
+                for (int i = 0; i < url.ArgsList.Count; i++)
                 {
-                    Match lollipop = Lollipops[i];
-                    if (argList.Contains(lollipop.Groups[2].Value))
+                    var arg = url.ArgsList[i];
+                    if (uniqArgList.ContainsKey(arg))
                     {
-                        int j = 0;
-                        while (argList[j] != lollipop.Groups[2].Value)
-                        {
-                            j++;
-                        }
-                        if (j != 0)
-                        {
-                            valList[j] += "," + lollipop.Groups[3].Value;
-                            redudancyList[j] += 1;
-                        }
+                        uniqArgList[arg].AddBaseURLCaller(url.BaseURL);
+                        uniqArgList[arg].AddValue(url.ValsList[i]);
+                        uniqArgList[arg].Occurence++;
+                        uniqArgList[arg].AddPosition(i+1);
                     }
                     else
                     {
-                        argList.Add(lollipop.Groups[2].Value);
-                        valList.Add(lollipop.Groups[3].Value);
-                        redudancyList.Add(1);
+                        uniqArgList.Add(arg, new UniqArg(url.BaseURL, url.ValsList[i], 1, i+1));
                     }
                 }
             }
-            //Write to file
         }
 
         static (string URI, bool IsAbsoluteUri, bool IsFile) IsValidPath(string path) //based on drzaus on stackoverflow
@@ -145,6 +124,47 @@ namespace ParameterLister
                     u.IsAbsoluteUri,
                     u.IsFile
                 );
+        }
+    }
+
+    class UniqArg
+    {
+        private List<string> baseURLCaller = new List<string>();
+        private List<string> value = new List<string>();
+        private int occurence;
+        private List<int> position = new List<int>();
+
+        public UniqArg(string baseURLCaller, string value, int occurence, int position)
+        {
+            BaseURLCaller.Add(baseURLCaller);
+            Value.Add(value);
+            Occurence = occurence;
+            Position.Add(position);
+        }
+
+        public int Occurence { get => occurence; set => occurence = value; }
+        public List<string> BaseURLCaller { get => baseURLCaller; set => baseURLCaller = value; }
+        public List<string> Value { get => value; set => this.value = value; }
+        public List<int> Position { get => position; set => position = value; }
+
+        public void AddBaseURLCaller(string baseURL)
+        {
+            BaseURLCaller.Add(baseURL);
+        }
+
+        public void AddValue(string value)
+        {
+            Value.Add(value);
+        }
+
+        public void AddPosition(int pos)
+        {
+            Position.Add(pos);
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }
