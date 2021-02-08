@@ -12,23 +12,21 @@
         <Image x:Key="PauseBtn" Source="/TikTokForWindows;component/Resources/pause-button.png"/>
         <Image x:Key="PlayBtn" Source="/TikTokForWindows;component/Resources/play-button.png"/>
     </Window.Resources>
-    <Grid MouseWheel="Window_MouseWheel">
+    <Grid MouseWheel="Window_MouseWheel" Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="528*"/>
             <ColumnDefinition Width="299*"/>
         </Grid.ColumnDefinitions>
-        <uc:VideoView x:Name="videoView" MouseWheel="videoView_MouseWheel">
-            <Grid MouseWheel="Grid_MouseWheel" SizeChanged="Grid_SizeChanged">
-                <Button x:Name="prevVid_Button" Content="▲" Margin="0,0,0,0" Style="{DynamicResource ChangeVidBtn}" Click="prevVid_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="413" Height="80"/>
-                <Button x:Name="bullshit_Button" Content="" Margin="0" Style="{DynamicResource bullshitBtn}" Width="429" Height="750"/>
-                <Button x:Name="playPauseBtn" Margin="0" Style="{DynamicResource ChangeVidBtn}" Click="playPause_Click" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Width="413" Height="120">
-                    <Image Opacity="0.6">
-                        <Image.Source>
-                            <BitmapImage UriSource="/TikTokForWindows;component/Resources/pause-button.png"/>
-                        </Image.Source>
-                    </Image>
-                </Button>
-                <Button x:Name="nextVideo_Button" Content="▼" Margin="0,311,0,0" Width="413" Height="80" Style="{DynamicResource ChangeVidBtn}" Click="nextVideo_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <uc:VideoView x:Name="videoView" MouseWheel="videoView_MouseWheel" >
+            <Grid MouseWheel="Grid_MouseWheel" SizeChanged="Grid_SizeChanged" IsHitTestVisible="True" Background="#01000000" PreviewMouseLeftButtonDown="Grid_MouseDown">
+                <Button x:Name="prevVid_Button" Content="▲" Margin="0,0,0,0" Style="{DynamicResource ChangeVidBtn}" Click="prevVid_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="543" Height="80" Background="Transparent" BorderBrush="{x:Null}"/>
+                <Button x:Name="bullshit_Button" Content="TEST" Margin="0" Style="{DynamicResource bullshitBtn}" Width="429" Height="750"/>
+                <Image Opacity="0" x:Name="PlayImage">
+                    <Image.Source>
+                        <BitmapImage UriSource="/TikTokForWindows;component/Resources/play-button.png"/>
+                    </Image.Source>
+                </Image>
+                <Button x:Name="nextVideo_Button" Content="▼" Margin="0,311,0,0" Width="543" Height="80" Style="{DynamicResource ChangeVidBtn}" Click="nextVideo_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="Transparent" BorderBrush="{x:Null}"/>
                 <ProgressBar x:Name="videoProgress" Height="5" Margin="0,386,0,0" Value="50" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="#00E6E6E6" Width="543"/>
                 <Label x:Name="volumeLabel" Content="Label" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="White" Opacity="100"/>
             </Grid>
@@ -52,7 +50,7 @@
         <Slider x:Name="volumeSlider" Margin="77,0,0,5" Maximum="100" ValueChanged="volumeSlider_ValueChanged" Grid.Column="1" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="229"/>
         <emoji:TextBlock x:Name="authorNameLabel" Text="AUTHORNAME PLACEHOLDER" Margin="5,20,75,867" Grid.Column="1" FontWeight="Bold" FontSize="16"/>
         <Button x:Name="likeBtn" Style="{DynamicResource likeBtn}" Margin="261,0,0,813" RenderTransformOrigin="0.542,1.25" Grid.Column="1" Opacity="1" Click="likeBtn_Click" HorizontalAlignment="Left" Width="40" Height="40" VerticalAlignment="Bottom" Background="#00DDDDDD">
-            <Image Height="38" Width="38">
+            <Image Height="38" Width="38" OpacityMask="Black">
                 <Image.Source>
                     <BitmapImage UriSource="/TikTokForWindows;component/Resources/notlike-button.png"/>
                 </Image.Source>
@@ -70,7 +68,7 @@
                 </Paragraph>
             </FlowDocument>
         </emoji:RichTextBox>
-        <TextBox x:Name="rawLinkText" Grid.Column="1" Margin="77,0,0,590" TextWrapping="NoWrap" Text="" IsReadOnly="True" HorizontalAlignment="Left" Width="224" Height="23" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="rawLinkText" Grid.Column="1" Margin="77,0,0,590" TextWrapping="NoWrap" Text="" IsReadOnly="True" HorizontalAlignment="Left" Width="224" Height="23" VerticalAlignment="Bottom" GotFocus="rawLinkText_GotFocus"/>
         <TextBox x:Name="shareLinkText" Grid.Column="1" Margin="77,0,0,618" TextWrapping="NoWrap" Text="" IsReadOnly="True" HorizontalAlignment="Left" Width="224" Height="23" VerticalAlignment="Bottom"/>
         <Label Content="Share link" Grid.Column="1" Margin="0,0,0,615" HorizontalAlignment="Left" Width="62" Height="26" VerticalAlignment="Bottom"/>
         <Label Content="Raw link" Grid.Column="1" Margin="0,0,0,590" HorizontalAlignment="Left" Width="54" Height="26" VerticalAlignment="Bottom"/>

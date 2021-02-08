@@ -30,12 +30,10 @@ namespace TikTokForWindows
         private LibVLC _libVLC;
         private MediaPlayer _mp;
 
-        Image PlayImage;
-        Image PauseImage;
+        Image PlayImageElem;
         Image LikeImage;
         Image NotlikeImage;
         BitmapImage PlayBitmapImage;
-        BitmapImage PauseBitmapImage;
         BitmapImage LikeBitmapImage;
         BitmapImage NotlikeBitmapImage;
 
@@ -105,6 +103,7 @@ namespace TikTokForWindows
 
             _libVLC = new LibVLC("");
             _mp = new MediaPlayer(_libVLC);
+            _mp.EnableMouseInput = true;
             videoView.MediaPlayer = _mp;
 
             _mp.Volume = 10;
@@ -117,17 +116,11 @@ namespace TikTokForWindows
             _mp.EndReached += EndReached;
             _mp.VolumeChanged += VolumeChanged;
 
-            PlayImage = new Image();
+            PlayImageElem = new Image();
             var UriStringPlay = @"pack://application:,,,/TikTokForWindows;component/Resources/play-button.png";
             var UriBitmapImageSourcePlay = new Uri(UriStringPlay, UriKind.Absolute);
             PlayBitmapImage = new BitmapImage(UriBitmapImageSourcePlay);
-            PlayImage.Source = PlayBitmapImage;
-
-            PauseImage = new Image();
-            var UriStringPause = @"pack://application:,,,/TikTokForWindows;component/Resources/pause-button.png";
-            var UriBitmapImageSourcePause = new Uri(UriStringPause, UriKind.Absolute);
-            PauseBitmapImage = new BitmapImage(UriBitmapImageSourcePause);
-            PauseImage.Source = PauseBitmapImage;
+            PlayImageElem.Source = PlayBitmapImage;
 
             LikeImage = new Image();
             var UriStringLike = @"pack://application:,,,/TikTokForWindows;component/Resources/like-button.png";
@@ -226,14 +219,14 @@ namespace TikTokForWindows
             {
                 isPlaying = !isPlaying;
                 _mp.Pause();
-                playPauseBtn.Content = PlayImage;
+                //playPauseBtn.Content = PlayImage;
             }
             else
             {
 
                 isPlaying = !isPlaying;
                 _mp.Play();
-                playPauseBtn.Content = PauseImage;
+                //playPauseBtn.Content = PauseImage;
             }
         }
 
@@ -250,7 +243,6 @@ namespace TikTokForWindows
             shareNbrLabel.Content = Utils.NormalizeNumber(newVid.ShareNbr);
             rawLinkText.Text = newVid.VideoUrl;
             _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
-
         }
 
         private void prevVid_Click(object sender, RoutedEventArgs e)
@@ -266,7 +258,6 @@ namespace TikTokForWindows
             shareNbrLabel.Content = Utils.NormalizeNumber(prevVid.ShareNbr);
             rawLinkText.Text = prevVid.VideoUrl;
             _mp.Play(new Media(_libVLC, videoURL, FromType.FromLocation));
-
         }
 
         /** EVENT MANAGEMENT **/
@@ -323,9 +314,6 @@ namespace TikTokForWindows
                 prevVid_Button.Width *= xRatio;
                 prevVid_Button.Height *= yRatio;
 
-                playPauseBtn.Width *= xRatio;
-                playPauseBtn.Height *= yRatio;
-
                 nextVideo_Button.Width *= xRatio;
                 nextVideo_Button.Height *= yRatio;
 
@@ -355,6 +343,32 @@ namespace TikTokForWindows
             {
                 liked = !liked;
                 likeBtn.Content = NotlikeImage;
+            }
+        }
+
+        private async void rawLinkText_GotFocus(object sender, RoutedEventArgs e)
+        {
+            await Application.Current.Dispatcher.InvokeAsync((sender as TextBox).SelectAll);
+        }
+        
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var test = e.GetPosition(this);
+            if (test.Y > 80 && test.Y < 840)
+            {
+                if (isPlaying)
+                {
+                    isPlaying = !isPlaying;
+                    _mp.Pause();
+                    PlayImage.Opacity = 1;
+                }
+                else
+                {
+
+                    isPlaying = !isPlaying;
+                    _mp.Play();
+                    PlayImage.Opacity = 0;
+                }
             }
         }
     }
