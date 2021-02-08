@@ -1,6 +1,5 @@
 # TikTokForWindows
 This is an attempt to make a desktop software for [TikTok](https://www.tiktok.com/).
-Right now, the main project is in pause. I'll be able to do more as soon as I fully got all parameters, and found a way to get them easily with future TikTok update. 
 
 # Building
 
@@ -36,6 +35,4 @@ Anything directly related to TikTok is pure property of TikTok.
 
 ## Images
 * *modified by ShiiroSan* **Nikin at Pixabay** - *Play Button* - [Play Button](https://pixabay.com/vectors/play-button-button-play-sign-audio-2138735/)
-* *modified by ShiiroSan* **Nikin at Pixabay** - *Pause Button* - [Pause Button](https://pixabay.com/vectors/pause-button-pause-icon-icon-2148106/)
-* **Bagande at Wikimedia Foundations** - *Heart icon red hollow* - [Heart icon red hollow](https://commons.wikimedia.org/wiki/File:Heart_icon_red_hollow.svg)
 * *modified by ShiiroSan* **Bagande at Wikimedia Foundations** - *Heart icon red hollow* - [Heart icon red hollow](https://commons.wikimedia.org/wiki/File:Heart_icon_red_hollow.svg)
