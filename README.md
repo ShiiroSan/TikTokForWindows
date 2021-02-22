@@ -3,7 +3,7 @@ This is an attempt to make a desktop software for [TikTok](https://www.tiktok.co
 
 # Building
 
-These libraries is needed in order to be able to compile it.
+These libraries are needed in order to be able to compile it.
 * [emoji.wpf](https://github.com/samhocevar/emoji.wpf)
 * [LibVLCSharp](https://github.com/videolan/libvlcsharp)
 * [LibVLC](https://code.videolan.org/videolan/libvlc-nuget)
