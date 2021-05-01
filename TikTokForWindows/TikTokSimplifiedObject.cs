@@ -28,8 +28,8 @@ namespace TikTokForWindows
 
         public TikTokSimplifiedObject(AwemeStructV2 TikTokAwemeStructV2)
         {
-            AuthorName = TikTokAwemeStructV2.author.nickname;
-            var request = WebRequest.Create(TikTokAwemeStructV2.author.avatar_medium.url_list[0]);
+            AuthorName = TikTokAwemeStructV2.Author.Nickname;
+            var request = WebRequest.Create(TikTokAwemeStructV2.Author.AvatarMedium);
             using (var response = request.GetResponse())
             using (var stream = response.GetResponseStream())
             {
@@ -50,10 +50,12 @@ namespace TikTokForWindows
 
                 }
             }
-            LikeNbr = int.Parse(TikTokAwemeStructV2.statistics.digg_count.ToString());
-            CommentNbr = int.Parse(TikTokAwemeStructV2.statistics.comment_count.ToString());
-            ShareNbr = int.Parse(TikTokAwemeStructV2.statistics.share_count.ToString());
-            var urlList = TikTokAwemeStructV2.video.play_addr.url_list;
+            LikeNbr = int.Parse(TikTokAwemeStructV2.Stats.DiggCount.ToString());
+            CommentNbr = int.Parse(TikTokAwemeStructV2.Stats.CommentCount.ToString());
+            ShareNbr = int.Parse(TikTokAwemeStructV2.Stats.ShareCount.ToString());
+            var urlList = TikTokAwemeStructV2.Video.PlayAddr;
+            VideoUrl = TikTokAwemeStructV2.Video.PlayAddr;
+            /*
             for (int j = 0; j < 3; j++)
             {
                 if (urlList[j].ToString().Contains("aweme"))
@@ -61,7 +63,8 @@ namespace TikTokForWindows
                     VideoUrl = urlList[j].ToString();
                 }
             }
-            VideoDesc = makeNiceDesc(TikTokAwemeStructV2.desc);
+            */
+            VideoDesc = makeNiceDesc(TikTokAwemeStructV2.Desc);
         }
 
         private FlowDocument makeNiceDesc(string videoDesc)

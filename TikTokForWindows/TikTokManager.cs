@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Newtonsoft.Json;
 
 namespace TikTokForWindows
 {
@@ -48,15 +49,15 @@ namespace TikTokForWindows
 
         //StaticRequestParams staticRequestParams = new StaticRequestParams();
         // staticRequestParams.
-        public static aweme_v2_feed_response GetFeed()
+        public static FeedResponse GetFeed()
         {
-            /*HttpWebRequest request = WebRequest.CreateHttp($"{api_url}api/recommend/item_list/?aid={aid}&app_name={app_name}&device_platform={device_platform}&referer={referer}&root_referer={root_referer}" +
+            HttpWebRequest request = WebRequest.CreateHttp($"{api_url}api/recommend/item_list/?aid={aid}&app_name={app_name}&device_platform={device_platform}&referer={referer}&root_referer={root_referer}" +
                 $"&user_agent={user_agent}&cookie_enabled={cookie_enabled}&screen_width={screen_width}&screen_height={screen_height}&browser_language={browser_language}&browser_platform={browser_platform}" +
                 $"&browser_name={browser_name}&browser_version={browser_version}&browser_version={browser_version}&browser_online={browser_online}&ac={ac}" +
                 $"&timezone_name={timezone_name}&verifyFp={verifyFp}&appId={appId}&region={region}&appType={appType}&isAndroid={isAndroid}&isMobile={isMobile}&isIOS={isIOS}&OS={OS}&did={did}" +
                 $"&tt-web-region={tt_web_region}&uid={uid}&count={count}&itemID={itemID}&language={language}");
-            */
-            HttpWebRequest request = WebRequest.CreateHttp($"https://m.tiktok.com/api/recommend/item_list/?aid=1988&app_name=tiktok_web&device_platform=web&referer=&root_referer=&user_agent=Mozilla%2F5.0+(Windows+NT+10.0%3B+Win64%3B+x64)+AppleWebKit%2F537.36+(KHTML,+like+Gecko)+Chrome%2F90.0.4400.0+Safari%2F537.36+Edg%2F90.0.782.0&cookie_enabled=true&screen_width=1920&screen_height=1080&browser_language=fr&browser_platform=Win32&browser_name=Mozilla&browser_version=5.0+(Windows+NT+10.0%3B+Win64%3B+x64)+AppleWebKit%2F537.36+(KHTML,+like+Gecko)+Chrome%2F90.0.4400.0+Safari%2F537.36+Edg%2F90.0.782.0&browser_online=true&ac=4g&timezone_name=Europe%2FParis&priority_region=FR&verifyFp=verify_kkl3tqdg_qR07xqP1_cQpZ_4YeG_BnSp_HYxb1trXwR6I&appId=1233&region=FR&appType=m&isAndroid=false&isMobile=false&isIOS=false&OS=windows&did=6923895903828887045&tt-web-region=FR&uid=6696409054825464837&count=30&itemID=1&language=fr");
+            
+            //HttpWebRequest request = WebRequest.CreateHttp($"https://m.tiktok.com/api/recommend/item_list/?aid=1988&app_name=tiktok_web&device_platform=web&referer=&root_referer=&user_agent=Mozilla%2F5.0+(Windows+NT+10.0%3B+Win64%3B+x64)+AppleWebKit%2F537.36+(KHTML,+like+Gecko)+Chrome%2F90.0.4400.0+Safari%2F537.36+Edg%2F90.0.782.0&cookie_enabled=true&screen_width=1920&screen_height=1080&browser_language=fr&browser_platform=Win32&browser_name=Mozilla&browser_version=5.0+(Windows+NT+10.0%3B+Win64%3B+x64)+AppleWebKit%2F537.36+(KHTML,+like+Gecko)+Chrome%2F90.0.4400.0+Safari%2F537.36+Edg%2F90.0.782.0&browser_online=true&ac=4g&timezone_name=Europe%2FParis&priority_region=FR&verifyFp=verify_kkl3tqdg_qR07xqP1_cQpZ_4YeG_BnSp_HYxb1trXwR6I&appId=1233&region=FR&appType=m&isAndroid=false&isMobile=false&isIOS=false&OS=windows&did=6923895903828887045&tt-web-region=FR&uid=6696409054825464837&count=30&itemID=1&language=fr");
             HttpWebResponse response;
             try
             {
@@ -64,10 +65,12 @@ namespace TikTokForWindows
                 request.Method = "GET";
                 request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9";
                 request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4400.0 Safari/537.36 Edg/90.0.782.0";
+                request.CookieContainer = new System.Net.CookieContainer();
                 response = (HttpWebResponse)request.GetResponse();
-                var truc = response.ContentLength;
 
-                return Serializer.Deserialize<aweme_v2_feed_response>(response.GetResponseStream());
+                var test = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+                return JsonConvert.DeserializeObject<FeedResponse>(test);
             }
             catch (WebException e)
             {

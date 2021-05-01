@@ -9,7 +9,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="961" Width="867" MouseWheel="Window_MouseWheel">
     <Window.Resources>
-        <Image x:Key="PauseBtn" Source="/TikTokForWindows;component/Resources/pause-button.png"/>
         <Image x:Key="PlayBtn" Source="/TikTokForWindows;component/Resources/play-button.png"/>
     </Window.Resources>
     <Grid MouseWheel="Window_MouseWheel" Background="White">

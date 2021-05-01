@@ -144,10 +144,10 @@ namespace TikTokForWindows
         private List<AwemeStructV2> getNewTikTokObjList()
         {
             List<AwemeStructV2> listOfTikTokObj = new List<AwemeStructV2>();
-            aweme_v2_feed_response m_jsonTikTokFeed = TikTokManager.GetFeed();
-            for (int i = 0; i < m_jsonTikTokFeed.aweme_list.Count; i++)
+            FeedResponse m_jsonTikTokFeed = TikTokManager.GetFeed();
+            for (int i = 0; i < m_jsonTikTokFeed.ItemList.Count; i++)
             {
-                listOfTikTokObj.Add(m_jsonTikTokFeed.aweme_list[i]);
+                listOfTikTokObj.Add(m_jsonTikTokFeed.ItemList[i]);
             }
             return listOfTikTokObj;
         }
