@@ -23,7 +23,7 @@ namespace ParameterListerGUI
         public List<string> ValsList { get => valsList; set => valsList = value; }
         private void makeArgsAndValsList()
         {
-            string pattern = @"(?:(http(?:s|)\:\/\/(?:[^?]*))|)(?:\&|\?)([^=]*)\=([^&]*)";
+            string pattern = @"(?:(http(?:s|)\:\/\/(?:[^?]*))|)(?:\&|\?)([^&]*)";
             /*
              * (?:(http(?:s|)\:\/\/(?:[^?]*))|) --> Capture the url
              * (?:\&|\?)([^=]*)\= --> Capture the argument
@@ -36,8 +36,8 @@ namespace ParameterListerGUI
             for (int i = 0; i < Lollipops.Count; i++)
             {
                 Match lollipop = Lollipops[i];
-                argsList.Add(lollipop.Groups[2].Value);
-                valsList.Add(lollipop.Groups[3].Value);
+                argsList.Add(Regex.Match(lollipop.Groups[2].Value, @"([^=]*)").Groups[1].Value);
+                valsList.Add(Regex.Match(lollipop.Groups[2].Value, @"\=([^=]*)").Groups[1].Value);
             }
         }
     }

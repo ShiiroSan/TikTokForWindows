@@ -40,11 +40,11 @@ namespace ParameterListerGUI
                     u.IsFile
                 );
         }
-
+        private List<string> argList = new List<string>();
+        private string filePath = string.Empty;
         private void button1_Click(object sender, EventArgs e)
         {
             var fileContent = string.Empty;
-            var filePath = string.Empty;
 
             var userGivenURLs = new List<string>();
 
@@ -65,7 +65,6 @@ namespace ParameterListerGUI
                 }
             }
             var urlList = new List<URLParamArgs>();
-
             foreach (string userURL in userGivenURLs)
             {
                 urlList.Add(new URLParamArgs(userURL));
@@ -89,6 +88,7 @@ namespace ParameterListerGUI
                     }
                 }
             }
+            argList = uniqArgList.Keys.ToList();
             for (int i = 0; i < uniqArgList.Count; i++)
             {
                 treeView1.BeginUpdate();
@@ -115,6 +115,17 @@ namespace ParameterListerGUI
 
                 treeView1.EndUpdate();
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string argSTR = "";
+            foreach (string argument in argList)
+            {
+                argSTR += argument + "\n";
+            }
+            File.WriteAllText(filePath.Remove(filePath.Length-4,4) + "_Args.txt", argSTR);
+            MessageBox.Show("Done.");
         }
     }
 
