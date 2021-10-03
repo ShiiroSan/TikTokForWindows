@@ -1,6 +1,9 @@
 # TikTokForWindows
 This is an attempt to make a desktop software for [TikTok](https://www.tiktok.com/).
 
+# ARCHIVED
+**ByteDance released an app for Windows 10. This app isn't legal anymore where I live so I have to stop working on this. 🤷**
+
 # Building
 
 These libraries are needed in order to be able to compile it.
